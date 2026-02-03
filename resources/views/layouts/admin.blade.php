@@ -84,13 +84,13 @@
 
         .nav-link-custom:hover {
             color: white;
-            background: rgba(255,255,255,0.03);
+            background: rgba(160, 98, 98, 0.03);
             border-left-color: var(--accent-gold);
         }
 
         .nav-link-custom.active {
             color: white;
-            background: rgba(179, 116, 40, 0.1);
+            background: rgba(185, 110, 19, 0.1);
             border-left-color: var(--accent-gold);
         }
 
@@ -140,7 +140,7 @@
 
         .card {
             border: none;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.02);
         }
 
         .animate-pulse {
