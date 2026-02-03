@@ -1,125 +1,132 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="p-8">
-        <div class="flex justify-between items-center mb-10">
-            <div>
-                <h1 class="text-4xl font-black text-[#2B2118] tracking-tight uppercase">Data Penyewaan</h1>
-                <p class="text-gray-500 font-medium mt-1">Kelola inventaris kostum tari dan baju adat secara real-time.</p>
-            </div>
-            <a href="{{ route('admin.penyewaan.create') }}"
-                class="bg-[#2B2118] text-white px-8 py-4 rounded-2xl font-bold shadow-xl hover:bg-[#B37428] transition-all flex items-center gap-3">
-                <span class="text-xl">+</span> Tambah Penyewaan
-            </a>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 fw-black text-dark text-uppercase tracking-tight-custom mb-1">
+                Data <span class="text-accent-gold">Penyewaan</span>
+            </h1>
+            <p class="text-muted small fw-bold tracking-wide mb-0">Pantau status peminjaman secara real-time.</p>
         </div>
+        <a href="{{ route('admin.penyewaan.create') }}"
+            class="btn btn-dark fw-bold text-uppercase px-4 py-2 rounded-3 shadow-sm" style="font-size: 0.75rem; letter-spacing: 1px;">
+            <i class="fas fa-plus me-2"></i> Tambah Penyewaan
+        </a>
+    </div>
 
-        @if (session('success'))
-            <div id="success-alert"
-                class="bg-green-500 text-white p-5 rounded-[1.5rem] mb-8 shadow-lg font-bold text-center animate-pulse">
-                {{ session('success') }}
+    @if (session('success'))
+        <div id="success-alert" class="alert alert-success border-0 border-start border-4 border-success shadow-sm rounded-3 d-flex justify-content-between align-items-center mb-4">
+            <div class="d-flex align-items-center gap-3">
+                <div class="bg-success bg-opacity-10 p-2 rounded-circle text-success">
+                    <i class="fas fa-check"></i>
+                </div>
+                <p class="mb-0 fw-bold small text-success">{{ session('success') }}</p>
             </div>
-        @endif
+            <button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>
+        </div>
+    @endif
 
-        <div class="bg-white rounded-[3rem] shadow-2xl border border-gray-100 overflow-hidden">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-[#2B2118] text-white">
-                        <th class="p-7 text-[11px] font-black uppercase tracking-[0.2em]">Kode & Pelanggan</th>
-                        <th class="p-7 text-[11px] font-black uppercase tracking-[0.2em]">Koleksi Busana</th>
-                        <th class="p-7 text-[11px] font-black uppercase tracking-[0.2em] text-center">Status</th>
-                        <th class="p-7 text-[11px] font-black uppercase tracking-[0.2em]">Catatan Kembali</th>
-                        <th class="p-7 text-[11px] font-black uppercase tracking-[0.2em] text-center">Aksi</th>
+    <div class="card border-0 shadow-sm rounded-5 overflow-hidden border-start border-5 border-primary-dark mb-5">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-primary-dark text-white">
+                    <tr>
+                        <th class="p-4 text-uppercase small fw-bold" style="letter-spacing: 1px;">Kode & Pelanggan</th>
+                        <th class="p-4 text-uppercase small fw-bold" style="letter-spacing: 1px;">Koleksi Busana</th>
+                        <th class="p-4 text-uppercase small fw-bold text-center" style="letter-spacing: 1px;">Status</th>
+                        <th class="p-4 text-uppercase small fw-bold" style="letter-spacing: 1px;">Catatan / Denda</th>
+                        <th class="p-4 text-uppercase small fw-bold text-center" style="letter-spacing: 1px;">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-100">
+                <tbody class="border-top-0">
                     @foreach ($penyewaan as $item)
-                        <tr class="hover:bg-orange-50/30 transition-colors">
-                            <td class="p-7">
-                                <div class="font-black text-[#2B2118] text-lg">{{ $item->kode_sewa }}</div>
-                                <div class="text-[#B37428] font-bold text-sm uppercase mt-1 italic">
-                                    {{ $item->nama_pelanggan }}
+                        <tr class="group">
+                            <td class="p-4">
+                                <div class="fw-black text-dark h5 mb-1">{{ $item->kode_sewa }}</div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="fas fa-user text-accent-gold" style="font-size: 10px;"></i>
+                                    <span class="text-uppercase text-muted fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">{{ $item->nama_pelanggan }}</span>
+                                </div>
                             </td>
-
-                            <td class="p-7">
-                                <div class="flex flex-wrap gap-2">
+                            <td class="p-4">
+                                <div class="d-flex flex-wrap gap-2">
                                     @foreach ($item->details as $d)
-                                        <span
-                                            class="bg-gray-100 text-[#2B2118] px-3 py-1.5 rounded-lg text-xs font-bold border border-gray-200">
-                                            {{ $d->baju->nama_baju }} <span class="text-[#B37428] ml-1">({{ $d->jumlah }}
-                                                Pcs)</span>
+                                        <span class="badge bg-light text-dark border border-secondary border-opacity-10 px-3 py-2 rounded-3 fw-bold d-flex align-items-center gap-2" style="font-size: 11px;">
+                                            <i class="fas fa-tshirt text-muted"></i>
+                                            {{ $d->baju->nama_baju }}
+                                            <span class="badge bg-primary-dark text-white rounded-1 ms-1" style="font-size: 9px;">{{ $d->jumlah }}</span>
                                         </span>
                                     @endforeach
                                 </div>
                             </td>
-
-                            <td class="p-7 text-center">
+                            <td class="p-4 text-center">
                                 @if ($item->status == 'disewa')
-                                    <span
-                                        class="bg-orange-100 text-orange-600 px-5 py-2 rounded-full text-[10px] uppercase font-black tracking-widest border border-orange-200">
-                                        Dalam Sewa
+                                    <span class="badge bg-warning bg-opacity-10 text-warning px-4 py-2 rounded-pill fw-bold text-uppercase" style="font-size: 10px; letter-spacing: 1px;">
+                                        <i class="fas fa-clock me-1"></i> Dalam Sewa
                                     </span>
                                 @else
-                                    <span
-                                        class="bg-green-100 text-green-600 px-5 py-2 rounded-full text-[10px] uppercase font-black tracking-widest border border-green-200">
-                                        Sudah Kembali
+                                    <span class="badge bg-success bg-opacity-10 text-success px-4 py-2 rounded-pill fw-bold text-uppercase" style="font-size: 10px; letter-spacing: 1px;">
+                                        <i class="fas fa-check-circle me-1"></i> Kembali
                                     </span>
                                 @endif
                             </td>
-
-                            <td class="p-7">
+                            <td class="p-4">
                                 @if ($item->status == 'dikembalikan' || ($item->status == 'KEMBALI' && $item->pengembalian))
-                                    <div class="text-xs font-bold text-gray-500 leading-relaxed italic">
+                                    <div class="small text-muted fst-italic mb-1">
                                         "{{ $item->pengembalian->keterangan ?? 'Kondisi Baik' }}"
                                     </div>
                                     @if ($item->pengembalian->denda > 0)
-                                        <div
-                                            class="inline-block mt-2 bg-red-50 text-red-600 px-2 py-1 rounded text-[10px] font-black border border-red-100">
-                                            DENDA: Rp {{ number_format($item->pengembalian->denda, 0, ',', '.') }}
-                                        </div>
+                                        <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-10 px-2 py-1 text-uppercase fw-bold" style="font-size: 9px;">
+                                            Denda: Rp {{ number_format($item->pengembalian->denda, 0, ',', '.') }}
+                                        </span>
                                     @endif
                                 @else
-                                    <span class="text-gray-300 font-bold italic text-xs">Belum ada catatan</span>
+                                    <span class="text-muted opacity-25 fw-bold">-</span>
                                 @endif
                             </td>
-
-                            <td class="p-7 text-center">
-                                <div class="flex justify-center gap-3">
-                                    @if ($item->status == 'disewa')
-                                        <a href="{{ route('admin.pengembalian.create', $item->id_penyewaan) }}"
-                                            class="bg-[#B37428] text-white px-5 py-2.5 rounded-xl text-[10px] font-black uppercase shadow-md hover:scale-105 transition-transform">
-                                            Proses Kembali
-                                        </a>
-                                    @else
-                                        <a href="{{ route('admin.penyewaan.nota', $item->id_penyewaan) }}" target="_blank"
-                                            class="bg-[#2B2118] text-white p-2.5 rounded-xl hover:bg-blue-600 transition-colors shadow-md"
-                                            title="Cetak Nota">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-                                            </svg>
-                                        </a>
-                                    @endif
-                                </div>
+                            <td class="p-4 text-center">
+                                @if ($item->status == 'disewa')
+                                    <a href="{{ route('admin.pengembalian.create', $item->id_penyewaan) }}"
+                                        class="btn btn-warning btn-sm fw-black text-uppercase px-3 py-2 rounded-3 shadow-sm" style="background-color: var(--accent-gold); color: white; font-size: 9px; letter-spacing: 1px;">
+                                        Proses Kembali
+                                    </a>
+                                @else
+                                    <a href="{{ route('admin.penyewaan.nota', $item->id_penyewaan) }}" target="_blank"
+                                        class="btn btn-dark btn-sm rounded-3 shadow-sm p-2"
+                                        title="Cetak Nota">
+                                        <i class="fas fa-print"></i>
+                                    </a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-    </div>
 
+        @if ($penyewaan->isEmpty())
+            <div class="p-5 text-center">
+                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 100px; height: 100px;">
+                    <i class="fas fa-clipboard-list text-muted h2 mb-0 opacity-25"></i>
+                </div>
+                <h3 class="fw-black text-dark mb-2 text-uppercase">Belum Ada Transaksi</h3>
+                <p class="text-muted mb-0 mx-auto" style="max-width: 400px;">Data penyewaan akan muncul di sini setelah transaksi dilakukan.</p>
+            </div>
+        @endif
+    </div>
+@endsection
+
+@push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const alert = document.getElementById('success-alert');
             if (alert) {
                 setTimeout(() => {
-                    alert.style.transition = "all 0.8s ease";
-                    alert.style.opacity = "0";
-                    alert.style.transform = "translateY(-20px)";
-                    setTimeout(() => alert.remove(), 800);
+                    alert.style.transition = 'opacity 0.5s ease';
+                    alert.style.opacity = '0';
+                    setTimeout(() => alert.remove(), 500);
                 }, 3000);
             }
         });
     </script>
-@endsection
+@endpush

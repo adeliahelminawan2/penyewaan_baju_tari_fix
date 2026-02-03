@@ -1,122 +1,125 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="max-w-4xl mx-auto p-4">
+    <div class="mx-auto" style="max-width: 900px;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 fw-black text-dark text-uppercase tracking-tight-custom mb-1">
+                    Transaksi <span class="text-accent-gold">Baru</span>
+                </h1>
+                <p class="text-muted small fw-bold tracking-wide">Input data penyewaan busana.</p>
+            </div>
+            <a href="{{ route('admin.penyewaan.index') }}"
+                class="btn btn-light fw-bold text-uppercase px-4 py-2 rounded-3 shadow-sm border" style="font-size: 0.75rem; letter-spacing: 1px;">
+                <i class="fas fa-arrow-left me-2"></i> Kembali
+            </a>
+        </div>
 
         @if ($errors->any())
-            <div class="bg-red-500 text-white p-5 mb-6 rounded-[2rem] shadow-lg border-b-4 border-red-700 animate-pulse">
-                <div class="flex items-center mb-2">
-                    <i class="fas fa-exclamation-circle text-xl mr-3"></i>
-                    <p class="font-black uppercase tracking-wider text-sm">Ada kesalahan input:</p>
+            <div class="alert alert-danger border-0 border-start border-4 border-danger shadow-sm rounded-3 mb-4">
+                <div class="d-flex align-items-start gap-3">
+                    <i class="fas fa-exclamation-circle text-danger mt-1"></i>
+                    <div>
+                        <h4 class="h6 fw-bold text-uppercase tracking-wide mb-1">Terjadi Kesalahan</h4>
+                        <ul class="mb-0 small fw-bold text-danger opacity-75 list-unstyled">
+                            @foreach ($errors->all() as $error)
+                                <li>• {{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
-                <ul class="list-disc ml-8 text-xs font-bold opacity-90">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
             </div>
         @endif
 
         @if (session('error'))
-            <div class="bg-orange-600 text-white p-5 mb-6 rounded-[2rem] shadow-lg border-b-4 border-orange-800">
-                <div class="flex items-center">
-                    <i class="fas fa-database text-xl mr-3"></i>
-                    <p class="font-bold text-sm italic">{{ session('error') }}</p>
-                </div>
+            <div class="alert alert-warning border-0 border-start border-4 border-warning shadow-sm rounded-3 d-flex align-items-center gap-3 mb-4">
+                <i class="fas fa-exclamation-triangle text-warning"></i>
+                <p class="mb-0 fw-bold small text-warning">{{ session('error') }}</p>
             </div>
         @endif
 
-        <div class="bg-white rounded-[2.5rem] shadow-2xl border border-gray-100 overflow-hidden">
-            <div class="bg-[#2B2118] p-8 text-center relative">
-                <div class="absolute left-6 top-1/2 -translate-y-1/2 opacity-20">
-                    <i class="fas fa-file-invoice text-5xl text-white"></i>
-                </div>
-                <h2 class="text-white text-2xl font-black tracking-widest uppercase">Transaksi Sewa Baru</h2>
-                <p class="text-amber-200/60 text-[10px] font-bold tracking-[0.3em] uppercase mt-1">
-                    "Ketikkan nama pelanggan dan pilih busana"
-                </p>
+        <div class="card border-0 shadow-sm rounded-5 overflow-hidden position-relative">
+            <div class="position-absolute top-0 end-0 p-5 opacity-5 pointer-events-none">
+                <i class="fas fa-file-invoice-dollar d-none d-md-block" style="font-size: 8rem; color: var(--primary-dark);"></i>
             </div>
 
-            <div class="p-8 md:p-12">
+            <div class="card-body p-4 p-md-5 position-relative z-1">
                 <form action="{{ route('admin.penyewaan.store') }}" method="POST">
                     @csrf
 
-                    <div class="space-y-8">
-                        <div>
-                            <label class="block text-[#2B2118] text-[10px] font-black uppercase tracking-[0.2em] mb-3 ml-1">
-                                Nama Pelanggan
-                            </label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-[#B37428]">
-                                    <i class="fas fa-user-edit"></i>
-                                </span>
-                                <input type="text" name="nama_pelanggan" value="{{ old('nama_pelanggan') }}"
-                                    placeholder="Ketik Nama Lengkap Penyewa..."
-                                    class="w-full pl-12 pr-6 py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl focus:border-[#B37428] focus:bg-white outline-none transition-all font-bold text-[#2B2118]"
-                                    required>
-                            </div>
+                    <div class="mb-4">
+                        <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Nama Pelanggan</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0 ps-3"><i class="fas fa-user-edit text-accent-gold"></i></span>
+                            <input type="text" name="nama_pelanggan" value="{{ old('nama_pelanggan') }}"
+                                class="form-control bg-light border-0 py-3 fw-bold"
+                                placeholder="Ketik Nama Lengkap Penyewa..." required>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Tanggal Sewa</label>
+                            <input type="date" name="tanggal_sewa" value="{{ old('tanggal_sewa', date('Y-m-d')) }}"
+                                class="form-control bg-light border-0 py-3 fw-bold">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-danger fw-bold text-uppercase small tracking-widest mb-2">Rencana Kembali</label>
+                            <input type="date" name="tanggal_kembali_rencana"
+                                value="{{ old('tanggal_kembali_rencana') }}"
+                                class="form-control bg-danger bg-opacity-10 border-0 py-3 fw-bold text-danger"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="bg-light rounded-4 p-4 mb-5 border">
+                        <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                            <h3 class="h6 text-accent-gold fw-black text-uppercase tracking-widest mb-0">
+                                <i class="fas fa-tshirt me-2"></i> Daftar Busana
+                            </h3>
+                            <span class="text-uppercase text-muted fw-bold" style="font-size: 9px;">Pilih item yang disewa</span>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label
-                                    class="block text-[#2B2118] text-[10px] font-black uppercase tracking-[0.2em] mb-3 ml-1">
-                                    Tanggal Sewa
-                                </label>
-                                <input type="date" name="tanggal_sewa" value="{{ old('tanggal_sewa', date('Y-m-d')) }}"
-                                    class="w-full px-6 py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl focus:border-[#B37428] outline-none font-bold text-[#2B2118]"
-                                    required>
-                            </div>
-                            <div>
-                                <label
-                                    class="block text-red-600 text-[10px] font-black uppercase tracking-[0.2em] mb-3 ml-1">
-                                    Rencana Kembali
-                                </label>
-                                <input type="date" name="tanggal_kembali_rencana"
-                                    value="{{ old('tanggal_kembali_rencana') }}"
-                                    class="w-full px-6 py-4 bg-gray-50 border-2 border-red-100 rounded-2xl focus:border-red-500 outline-none font-bold text-red-600"
-                                    required>
-                            </div>
-                        </div>
-
-                        <div class="p-6 bg-orange-50/50 rounded-[2.5rem] border border-orange-100">
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <div class="md:col-span-2">
-                                    <label
-                                        class="block text-[#B37428] text-[10px] font-black uppercase tracking-[0.2em] mb-3 ml-1">
-                                        Busana / Kostum
-                                    </label>
-                                    <select name="id_baju"
-                                        class="w-full px-6 py-4 bg-white border-2 border-gray-100 rounded-2xl focus:border-[#B37428] outline-none font-bold text-[#2B2118]"
-                                        required>
+                        <div id="items-container" class="mb-3">
+                            <div class="row g-3 item-row align-items-end mb-3">
+                                <div class="col-8 col-md-9">
+                                    <label class="form-label text-muted fw-bold text-uppercase" style="font-size: 9px;">Pilih Busana</label>
+                                    <select name="id_baju[]" class="form-select border-0 shadow-sm rounded-3 fw-bold py-2" required>
                                         <option value="" disabled selected>-- Pilih Baju --</option>
                                         @foreach ($bajus as $b)
-                                            <option value="{{ $b->id_baju }}"
-                                                {{ old('id_baju') == $b->id_baju ? 'selected' : '' }}>
-                                                {{ $b->nama_baju }} (Stok: {{ $b->stok }})
-                                            </option>
+                                            <option value="{{ $b->id_baju }}">{{ $b->nama_baju }} (Stok: {{ $b->stok }})</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div>
-                                    <label
-                                        class="block text-[#B37428] text-[10px] font-black uppercase tracking-[0.2em] mb-3 ml-1">
-                                        Jumlah
-                                    </label>
-                                    <input type="number" name="jumlah" min="1" value="{{ old('jumlah', 1) }}"
-                                        class="w-full px-6 py-4 bg-white border-2 border-gray-100 rounded-2xl focus:border-[#B37428] outline-none font-bold text-[#2B2118]"
+                                <div class="col-3 col-md-2 text-center">
+                                     <label class="form-label text-muted fw-bold text-uppercase" style="font-size: 9px;">Jumlah</label>
+                                    <input type="number" name="jumlah[]" min="1" value="1"
+                                        class="form-control border-0 shadow-sm rounded-3 fw-bold py-2 text-center"
                                         required>
+                                </div>
+                                <div class="col-1">
+                                    <button type="button"
+                                        class="btn btn-outline-danger border-0 rounded-3 btn-remove p-2 opacity-0 ripple-none" disabled>
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="flex flex-col md:flex-row gap-4 pt-4">
-                            <button type="submit"
-                                class="flex-[2] bg-[#2B2118] text-white font-black py-5 rounded-2xl shadow-xl hover:bg-[#B37428] hover:shadow-amber-900/40 transition-all duration-300 uppercase text-xs tracking-[0.2em] flex items-center justify-center">
-                                <i class="fas fa-save mr-2"></i> Simpan Transaksi
+                        <button type="button" id="btn-add-item"
+                            class="btn btn-outline-dark w-100 py-2 border-2 border-dashed fw-bold text-uppercase small tracking-widest">
+                            <i class="fas fa-plus me-2"></i> Tambah Item Lain
+                        </button>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <button type="submit" class="btn btn-dark w-100 py-3 fw-bold text-uppercase shadow-sm" style="letter-spacing: 1px;">
+                                <i class="fas fa-save me-2"></i> Proses Transaksi
                             </button>
-                            <a href="{{ route('admin.penyewaan.index') }}"
-                                class="flex-1 bg-gray-100 text-gray-500 font-bold py-5 rounded-2xl text-center hover:bg-gray-200 transition-all uppercase text-xs tracking-widest flex items-center justify-center">
+                        </div>
+                        <div class="col-6">
+                            <a href="{{ route('admin.penyewaan.index') }}" class="btn btn-light w-100 py-3 fw-bold text-uppercase border shadow-sm" style="letter-spacing: 1px;">
                                 Batal
                             </a>
                         </div>
@@ -126,3 +129,46 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('items-container');
+            const btnAdd = document.getElementById('btn-add-item');
+
+            const getRowTemplate = () => `
+                <div class="row g-3 item-row align-items-end mb-3 animate-fade-in">
+                    <div class="col-8 col-md-9">
+                        <select name="id_baju[]" class="form-select border-0 shadow-sm rounded-3 fw-bold py-2" required>
+                            <option value="" disabled selected>-- Pilih Baju --</option>
+                            @foreach ($bajus as $b)
+                                <option value="{{ $b->id_baju }}">{{ $b->nama_baju }} (Stok: {{ $b->stok }})</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-3 col-md-2 text-center">
+                        <input type="number" name="jumlah[]" min="1" value="1" class="form-control border-0 shadow-sm rounded-3 fw-bold py-2 text-center" required>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn btn-outline-danger border-0 rounded-3 btn-remove p-2 shadow-sm ripple-none">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            btnAdd.addEventListener('click', function() {
+                container.insertAdjacentHTML('beforeend', getRowTemplate());
+            });
+
+            container.addEventListener('click', function(e) {
+                if (e.target.closest('.btn-remove')) {
+                    const row = e.target.closest('.item-row');
+                    if (document.querySelectorAll('.item-row').length > 1) {
+                        row.remove();
+                    }
+                }
+            });
+        });
+    </script>
+@endpush

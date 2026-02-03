@@ -9,12 +9,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('penyewaan', function (Blueprint $table) {
-            $table->id('id_penyewaan'); // Primary Key tabel ini
+            $table->id('id_penyewaan'); 
             $table->string('kode_sewa')->unique();
 
-            // Perbaikan di sini:
-            $table->foreignId('id_pelanggan') // Nama kolom di tabel ini
-                ->references('id_pelanggan') // Merujuk ke Primary Key di tabel pelanggan
+            $table->foreignId('id_pelanggan') 
+                ->references('id_pelanggan') 
                 ->on('pelanggan')
                 ->onDelete('cascade');
 

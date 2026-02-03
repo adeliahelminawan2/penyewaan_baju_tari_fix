@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Baju;
 use App\Models\DetailPenyewaan;
+use App\Models\Pelanggan;
 use App\Models\Penyewaan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -31,8 +32,10 @@ class PenyewaanController extends Controller
     {
         $request->validate([
             'nama_pelanggan' => 'required|string|max:255',
-            'id_baju' => 'required',
-            'jumlah' => 'required|integer|min:1',
+            'id_baju' => 'required|array',
+            'id_baju.*' => 'exists:baju,id_baju',
+            'jumlah' => 'required|array',
+            'jumlah.*' => 'integer|min:1',
             'tanggal_sewa' => 'required|date',
             'tanggal_kembali_rencana' => 'required|date',
         ]);
@@ -40,32 +43,55 @@ class PenyewaanController extends Controller
         try {
             DB::beginTransaction();
 
-            $baju = Baju::findOrFail($request->id_baju);
-            if ($baju->stok < $request->jumlah) {
-                return back()->with('error', 'Stok tidak mencukupi!')->withInput();
+            $items = [];
+            $bajuIds = $request->id_baju;
+            $jumlahs = $request->jumlah;
+
+            // Check stock availability for all items first
+            foreach ($bajuIds as $index => $idBaju) {
+                $jumlah = $jumlahs[$index];
+                $baju = Baju::findOrFail($idBaju);
+                
+                if ($baju->stok < $jumlah) {
+                    return back()->with('error', "Stok untuk {$baju->nama_baju} tidak mencukupi! (Sisa: {$baju->stok})")->withInput();
+                }
+
+                $items[] = [
+                    'baju' => $baju,
+                    'jumlah' => $jumlah
+                ];
             }
 
             $kodeSewa = 'INV-'.date('Ymd').'-'.strtoupper(Str::random(4));
 
+            $pelanggan = Pelanggan::firstOrCreate(
+                ['nama_pelanggan' => $request->nama_pelanggan],
+                ['no_hp' => '-', 'alamat' => '-']
+            );
+
             $penyewaan = Penyewaan::create([
                 'kode_sewa' => $kodeSewa,
-                'nama_pelanggan' => $request->nama_pelanggan,
+                'id_pelanggan' => $pelanggan->id_pelanggan,
                 'tanggal_sewa' => $request->tanggal_sewa,
                 'tanggal_kembali_rencana' => $request->tanggal_kembali_rencana,
                 'status' => 'DISEWA',
             ]);
 
-            $subtotal = $baju->harga_sewa * $request->jumlah;
+            foreach ($items as $item) {
+                $baju = $item['baju'];
+                $jumlah = $item['jumlah'];
+                $subtotal = $baju->harga_sewa * $jumlah;
 
-            DetailPenyewaan::create([
-                'id_penyewaan' => $penyewaan->id_penyewaan,
-                'id_baju' => $request->id_baju,
-                'jumlah' => $request->jumlah,
-                'harga_sewa' => $baju->harga_sewa,
-                'subtotal' => $subtotal,
-            ]);
+                DetailPenyewaan::create([
+                    'id_penyewaan' => $penyewaan->id_penyewaan,
+                    'id_baju' => $baju->id_baju,
+                    'jumlah' => $jumlah,
+                    'harga_sewa' => $baju->harga_sewa,
+                    'subtotal' => $subtotal,
+                ]);
 
-            $baju->decrement('stok', $request->jumlah);
+                $baju->decrement('stok', $jumlah);
+            }
 
             DB::commit();
 
@@ -79,7 +105,6 @@ class PenyewaanController extends Controller
         }
     }
 
-    // Fungsi untuk menampilkan Histori Detail
     public function show($id)
     {
         $penyewaan = Penyewaan::with(['details.baju', 'pengembalian'])

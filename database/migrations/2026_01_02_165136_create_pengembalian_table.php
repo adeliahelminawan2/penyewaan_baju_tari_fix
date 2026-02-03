@@ -11,7 +11,6 @@ return new class extends Migration
         Schema::create('pengembalian', function (Blueprint $table) {
             $table->id('id_pengembalian');
 
-            // Relasi ke penyewaan
             $table->foreignId('id_penyewaan')
                 ->references('id_penyewaan')
                 ->on('penyewaan')

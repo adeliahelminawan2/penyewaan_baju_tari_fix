@@ -1,120 +1,105 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="max-w-3xl mx-auto">
-        <div class="mb-8 flex items-center justify-between">
+    <div class="mx-auto" style="max-width: 900px;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <h1 class="text-3xl font-black text-[#2B2118] tracking-tight">Tambah Koleksi Baju</h1>
-                <p class="text-gray-500 mt-1 font-medium">Input data busana baru ke dalam galeri.</p>
+                <h1 class="h3 fw-black text-dark text-uppercase tracking-tight-custom mb-1">
+                    Tambah <span class="text-accent-gold">Koleksi</span>
+                </h1>
+                <p class="text-muted small fw-bold tracking-wide">Input data busana baru ke dalam galeri.</p>
             </div>
-            <div class="w-16 h-1 bg-[#B37428] rounded-full"></div>
+            <a href="{{ route('admin.baju.index') }}"
+                class="btn btn-light fw-bold text-uppercase px-4 py-2 rounded-3 shadow-sm border" style="font-size: 0.75rem; letter-spacing: 1px;">
+                <i class="fas fa-arrow-left me-2"></i> Kembali
+            </a>
         </div>
 
-        <div class="bg-white rounded-[2.5rem] shadow-2xl shadow-gray-200/50 overflow-hidden border border-gray-100">
-            <div class="bg-[#2B2118] p-8 text-center relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4 opacity-10">
-                    <i class="fas fa-crown text-6xl text-[#B37428]"></i>
-                </div>
-                <h2 class="text-2xl font-bold text-white relative z-10 uppercase tracking-widest">Tambah Koleksi Baru</h2>
-                <p class="text-amber-200/60 text-sm italic mt-1 relative z-10 font-medium">
-                    "Pastikan data baju sesuai dengan fisik barang"
-                </p>
+        <div class="card border-0 shadow-sm rounded-5 overflow-hidden position-relative">
+            <div class="position-absolute top-0 end-0 p-5 opacity-5 pointer-events-none">
+                <i class="fas fa-crown d-none d-md-block" style="font-size: 8rem; color: var(--primary-dark);"></i>
             </div>
 
-            <form action="{{ route('admin.baju.store') }}" method="POST" enctype="multipart/form-data"
-                class="p-10 space-y-6">
-                @csrf
+            <div class="card-body p-4 p-md-5 position-relative z-1">
+                <form action="{{ route('admin.baju.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
 
-                <div>
-                    <label class="block text-[#2B2118] font-bold text-sm uppercase tracking-widest mb-3">Nama Baju /
-                        Kostum</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-[#B37428]">
-                            <i class="fas fa-tshirt"></i>
-                        </span>
-                        <input type="text" name="nama_baju"
-                            class="w-full bg-orange-50/30 border-2 border-gray-100 pl-12 pr-4 py-4 rounded-2xl focus:border-[#B37428] focus:bg-white outline-none transition-all duration-300 font-medium text-[#2B2118]"
-                            placeholder="Contoh: Tari Piring" required>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-[#2B2118] font-bold text-sm uppercase tracking-widest mb-3">Harga Sewa
-                            (Rp)</label>
-                        <div class="relative">
-                            <span
-                                class="absolute inset-y-0 left-0 pl-4 flex items-center text-[#B37428] font-black">Rp</span>
-                            <input type="number" name="harga_sewa"
-                                class="w-full bg-orange-50/30 border-2 border-gray-100 pl-12 pr-4 py-4 rounded-2xl focus:border-[#B37428] focus:bg-white outline-none transition-all duration-300 font-medium text-[#2B2118]"
-                                placeholder="50000" required>
+                    <div class="mb-4">
+                        <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Nama Baju / Kostum</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0 ps-3"><i class="fas fa-tshirt text-muted"></i></span>
+                            <input type="text" name="nama_baju"
+                                class="form-control bg-light border-0 py-3 fw-bold"
+                                placeholder="Contoh: Tari Piring" required>
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block text-[#2B2118] font-bold text-sm uppercase tracking-widest mb-3">Jumlah
-                            Stok</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-[#B37428]">
-                                <i class="fas fa-boxes"></i>
-                            </span>
-                            <input type="number" name="stok"
-                                class="w-full bg-orange-50/30 border-2 border-gray-100 pl-12 pr-4 py-4 rounded-2xl focus:border-[#B37428] focus:bg-white outline-none transition-all duration-300 font-medium text-[#2B2118]"
-                                placeholder="50" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-[#2B2118] font-bold text-sm uppercase tracking-widest mb-3">Foto Baju</label>
-                    <div class="relative group">
-                        <div id="drop-area"
-                            class="mt-1 flex justify-center px-6 pt-10 pb-10 border-2 border-[#2B2118]/20 border-dashed rounded-[2rem] group-hover:border-[#B37428] group-hover:bg-amber-50/50 transition-all duration-300 cursor-pointer">
-                            <div class="space-y-2 text-center">
-                                <div id="upload-icon"
-                                    class="w-16 h-16 bg-amber-100 text-[#B37428] rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:rotate-12 transition-all duration-300">
-                                    <i class="fas fa-cloud-upload-alt text-2xl"></i>
-                                </div>
-
-                                <div class="flex flex-col text-sm text-gray-600">
-                                    <span class="font-bold text-[#2B2118] text-base">Upload a file</span>
-                                    <span class="text-gray-400 mt-1 italic">PNG, JPG, JPEG up to 2MB</span>
-                                </div>
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Harga Sewa (Rp)</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-0 ps-3 fw-bold text-muted">Rp</span>
+                                <input type="number" name="harga_sewa"
+                                    class="form-control bg-light border-0 py-3 fw-bold"
+                                    placeholder="50000" required>
                             </div>
                         </div>
-
-                        <input id="file-upload" name="foto" type="file"
-                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" accept="image/*" required
-                            onchange="previewImage(event)">
-                    </div>
-
-                    <div id="preview-wrapper" class="hidden mt-6 text-center">
-                        <div class="relative inline-block">
-                            <img id="img-preview"
-                                class="w-48 h-64 object-cover rounded-3xl border-4 border-white shadow-2xl mx-auto">
-                            <div
-                                class="absolute -top-2 -right-2 bg-[#B37428] text-white w-8 h-8 rounded-full flex items-center justify-center shadow-lg border-2 border-white">
-                                <i class="fas fa-check text-xs"></i>
+                        <div class="col-md-6">
+                            <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Jumlah Stok</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-0 ps-3"><i class="fas fa-boxes text-muted"></i></span>
+                                <input type="number" name="stok"
+                                    class="form-control bg-light border-0 py-3 fw-bold"
+                                    placeholder="50" required>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="flex flex-col md:flex-row gap-4 pt-6">
-                    <button type="submit"
-                        class="flex-1 bg-[#2B2118] text-white font-bold py-5 rounded-2xl hover:bg-[#B37428] transition-all duration-300 shadow-xl shadow-amber-900/20 flex items-center justify-center gap-3 group">
-                        <i class="fas fa-save group-hover:scale-110 transition-transform"></i>
-                        Simpan Koleksi
-                    </button>
-                    <a href="{{ route('admin.baju.index') }}"
-                        class="px-10 py-5 bg-gray-100 text-gray-500 font-bold rounded-2xl hover:bg-gray-200 transition-all duration-300 text-center">
-                        Batal
-                    </a>
-                </div>
-            </form>
+                    <div class="mb-5">
+                        <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Foto Busana</label>
+                        <div class="position-relative overflow-hidden rounded-4 border-2 border-dashed border-light bg-light p-4 text-center cursor-pointer hover-border-gold transition-all" id="drop-area">
+                            <div class="mb-3">
+                                <div class="bg-white rounded-circle shadow-sm d-flex align-items-center justify-content-center mx-auto" style="width: 60px; height: 60px;">
+                                    <i class="fas fa-cloud-upload-alt text-accent-gold h4 mb-0"></i>
+                                </div>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-1">Upload File Foto</h5>
+                            <p class="text-muted small mb-0">Atau klik untuk memilih (Format: JPG, PNG)</p>
+                            <input type="file" name="foto"
+                                class="position-absolute top-0 start-0 w-100 h-100 opacity-0 cursor-pointer" id="file-upload"
+                                accept="image/*" required onchange="previewImage(event)">
+                        </div>
+
+                        <div id="preview-wrapper" class="d-none mt-4 text-center">
+                            <div class="position-relative d-inline-block">
+                                <img id="img-preview" class="rounded-3 shadow-lg border border-3 border-white" style="height: 200px; object-fit: cover;">
+                                <div class="position-absolute translate-middle top-0 start-100 bg-success rounded-circle border border-2 border-white d-flex align-items-center justify-content-center text-white" style="width: 25px; height: 25px;">
+                                    <i class="fas fa-check" style="font-size: 10px;"></i>
+                                </div>
+                            </div>
+                            <p class="text-success fw-bold small text-uppercase tracking-widest mt-2">Foto Siap Upload</p>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <button type="submit" class="btn btn-dark w-100 py-3 fw-bold text-uppercase shadow-sm" style="letter-spacing: 1px;">
+                                <i class="fas fa-save me-2"></i> Simpan Koleksi
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button type="reset" class="btn btn-light w-100 py-3 fw-bold text-uppercase border shadow-sm" style="letter-spacing: 1px;">
+                                Reset
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
+@endsection
 
+@push('scripts')
     <script>
         function previewImage(event) {
             const reader = new FileReader();
@@ -125,8 +110,9 @@
             reader.onload = function() {
                 if (reader.readyState === 2) {
                     output.src = reader.result;
-                    wrapper.classList.remove('hidden');
-                    dropArea.classList.add('border-[#B37428]', 'bg-amber-50/50');
+                    wrapper.classList.remove('d-none');
+                    dropArea.classList.add('bg-success', 'bg-opacity-10', 'border-success');
+                    dropArea.classList.remove('bg-light', 'border-light');
                 }
             }
 
@@ -135,4 +121,13 @@
             }
         }
     </script>
-@endsection
+@endpush
+
+@push('styles')
+    <style>
+        .hover-border-gold:hover {
+            border-color: var(--accent-gold) !important;
+            background-color: rgba(179, 116, 40, 0.05) !important;
+        }
+    </style>
+@endpush

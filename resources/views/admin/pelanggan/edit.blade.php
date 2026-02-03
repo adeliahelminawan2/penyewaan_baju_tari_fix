@@ -1,84 +1,78 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="max-w-3xl mx-auto">
-        <div class="mb-8 flex items-center justify-between">
+    <div class="mx-auto" style="max-width: 800px;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <h1 class="text-3xl font-black text-[#2B2118] tracking-tight">Edit Data Pelanggan</h1>
-                <p class="text-gray-500 mt-1 font-medium">Perbarui informasi pelanggan setia Busana Laras.</p>
+                <h1 class="h3 fw-black text-dark text-uppercase tracking-tight-custom mb-1">
+                    Edit <span class="text-accent-gold">Pelanggan</span>
+                </h1>
+                <p class="text-muted small fw-bold tracking-wide">Perbarui informasi pelanggan setia Busana Laras.</p>
             </div>
-            <div class="w-16 h-1 bg-[#B37428] rounded-full"></div>
+            <a href="{{ route('admin.pelanggan.index') }}"
+                class="btn btn-light fw-bold text-uppercase px-4 py-2 rounded-3 shadow-sm border" style="font-size: 0.75rem; letter-spacing: 1px;">
+                <i class="fas fa-arrow-left me-2"></i> Kembali
+            </a>
         </div>
 
-        <div class="bg-white rounded-[2.5rem] shadow-2xl shadow-gray-200/50 overflow-hidden border border-gray-100">
-            <div class="bg-[#2B2118] p-8 text-center relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4 opacity-10">
-                    <i class="fas fa-user-edit text-6xl text-[#B37428]"></i>
-                </div>
-                <h2 class="text-2xl font-bold text-white relative z-10 uppercase tracking-widest">Update Profil Pelanggan
-                </h2>
-                <p class="text-amber-200/60 text-sm italic mt-1 relative z-10 font-medium">
-                    "Pastikan data yang diubah sudah benar dan valid"
-                </p>
+        <div class="card border-0 shadow-sm rounded-5 overflow-hidden position-relative">
+            <div class="position-absolute top-0 end-0 p-5 opacity-5 pointer-events-none">
+                <i class="fas fa-user-edit d-none d-md-block" style="font-size: 8rem; color: var(--primary-dark);"></i>
             </div>
 
-            <form action="{{ route('admin.pelanggan.update', $pelanggan->id_pelanggan) }}" method="POST"
-                class="p-10 space-y-6">
-                @csrf
-                @method('PUT')
-
-                <div>
-                    <label class="block text-[#2B2118] font-bold text-sm uppercase tracking-widest mb-3">Nama
-                        Lengkap</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-[#B37428]">
-                            <i class="fas fa-user"></i>
-                        </span>
-                        <input type="text" name="nama_pelanggan"
-                            value="{{ old('nama_pelanggan', $pelanggan->nama_pelanggan) }}"
-                            class="w-full bg-orange-50/30 border-2 border-gray-100 pl-12 pr-4 py-4 rounded-2xl focus:border-[#B37428] focus:bg-white outline-none transition-all duration-300 font-medium text-[#2B2118]"
-                            placeholder="Contoh: Siti Rahmawati" required>
+            <div class="card-body p-4 p-md-5 position-relative z-1">
+                <form action="{{ route('admin.pelanggan.update', $pelanggan->id_pelanggan) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    
+                    <div class="mb-4">
+                        <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Nama Lengkap</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0 ps-3"><i class="fas fa-user text-muted"></i></span>
+                            <input type="text" name="nama_pelanggan" id="nama_pelanggan"
+                                class="form-control bg-light border-0 py-3 fw-bold @error('nama_pelanggan') is-invalid @enderror"
+                                placeholder="Masukkan nama pelanggan..." value="{{ old('nama_pelanggan', $pelanggan->nama_pelanggan) }}" required>
+                            @error('nama_pelanggan')
+                                <div class="invalid-feedback fw-bold small mt-2 ps-2">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
-                </div>
 
-                <div>
-                    <label class="block text-[#2B2118] font-bold text-sm uppercase tracking-widest mb-3">Nomor
-                        WhatsApp</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-[#B37428]">
-                            <i class="fab fa-whatsapp text-lg font-bold"></i>
-                        </span>
-                        <input type="text" name="no_hp" value="{{ old('no_hp', $pelanggan->no_hp) }}"
-                            class="w-full bg-orange-50/30 border-2 border-gray-100 pl-12 pr-4 py-4 rounded-2xl focus:border-[#B37428] focus:bg-white outline-none transition-all duration-300 font-medium text-[#2B2118]"
-                            placeholder="081234567890" required>
+                    <div class="mb-4">
+                        <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Nomor Telepon / WA</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0 ps-3"><i class="fas fa-phone text-muted"></i></span>
+                            <input type="text" name="no_hp" id="no_hp"
+                                class="form-control bg-light border-0 py-3 fw-bold @error('no_hp') is-invalid @enderror"
+                                placeholder="Contoh: 08123456789" value="{{ old('no_hp', $pelanggan->no_hp) }}" required>
+                            @error('no_hp')
+                                <div class="invalid-feedback fw-bold small mt-2 ps-2">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
-                </div>
 
-                <div>
-                    <label class="block text-[#2B2118] font-bold text-sm uppercase tracking-widest mb-3">Alamat
-                        Domisili</label>
-                    <div class="relative">
-                        <span class="absolute top-4 left-4 text-[#B37428]">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </span>
-                        <textarea name="alamat" rows="4"
-                            class="w-full bg-orange-50/30 border-2 border-gray-100 pl-12 pr-4 py-4 rounded-2xl focus:border-[#B37428] focus:bg-white outline-none transition-all duration-300 font-medium text-[#2B2118]"
-                            placeholder="Masukkan alamat lengkap pelanggan saat ini..." required>{{ old('alamat', $pelanggan->alamat) }}</textarea>
+                    <div class="mb-5">
+                        <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Alamat Lengkap</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0 ps-3 pt-3 align-items-start"><i class="fas fa-map-marker-alt text-muted"></i></span>
+                            <textarea name="alamat" id="alamat" rows="3"
+                                class="form-control bg-light border-0 py-3 fw-bold @error('alamat') is-invalid @enderror"
+                                placeholder="Ketik alamat lengkap pelanggan..." required>{{ old('alamat', $pelanggan->alamat) }}</textarea>
+                            @error('alamat')
+                                <div class="invalid-feedback fw-bold small mt-2 ps-2">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
-                </div>
 
-                <div class="flex flex-col md:flex-row gap-4 pt-6">
-                    <button type="submit"
-                        class="flex-1 bg-[#2B2118] text-white font-bold py-5 rounded-2xl hover:bg-[#B37428] transition-all duration-300 shadow-xl shadow-amber-900/20 flex items-center justify-center gap-3 group">
-                        <i class="fas fa-save group-hover:scale-110 transition-transform"></i>
-                        Simpan Perubahan
-                    </button>
-                    <a href="{{ route('admin.pelanggan.index') }}"
-                        class="px-10 py-5 bg-gray-100 text-gray-500 font-bold rounded-2xl hover:bg-gray-200 transition-all duration-300 text-center">
-                        Batal
-                    </a>
-                </div>
-            </form>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-dark w-100 py-3 fw-bold text-uppercase shadow-sm" style="letter-spacing: 1px;">
+                                <i class="fas fa-save me-2"></i> Simpan Perubahan
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 @endsection

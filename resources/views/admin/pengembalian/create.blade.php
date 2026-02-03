@@ -1,90 +1,103 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="p-8">
-        <div class="bg-[#2B2118] rounded-t-[2rem] p-8 text-center border-b-4 border-[#B37428]">
-            <h1 class="text-3xl font-black text-white uppercase tracking-tighter">Proses Pengembalian Busana</h1>
-            <p class="text-amber-200/60 text-xs uppercase tracking-[0.2em] mt-2 font-bold italic">"Denda dihitung otomatis
-                berdasarkan hari keterlambatan"</p>
-        </div>
+    <div class="mx-auto" style="max-width: 900px;">
+        <div class="card border-0 shadow-sm rounded-5 overflow-hidden mb-5">
+            <div class="bg-primary-dark p-5 text-center border-bottom border-4 border-accent-gold position-relative">
+                <i class="fas fa-undo-alt position-absolute top-50 start-50 translate-middle opacity-10 text-white" style="font-size: 10rem;"></i>
+                <h1 class="h3 fw-black text-white text-uppercase tracking-tight-custom mb-2 position-relative z-1">
+                    Proses <span class="text-accent-gold">Pengembalian</span>
+                </h1>
+                <p class="text-white-50 small fw-bold text-uppercase tracking-widest mb-0 position-relative z-1">
+                    Denda dihitung otomatis berdasarkan hari keterlambatan
+                </p>
+            </div>
 
-        <div class="bg-white rounded-b-[2.5rem] shadow-2xl overflow-hidden p-10">
-            <form action="{{ route('admin.pengembalian.store') }}" method="POST" class="space-y-8">
-                @csrf
-                <input type="hidden" name="id_penyewaan" value="{{ $penyewaan->id_penyewaan }}">
+            <div class="card-body p-4 p-md-5">
+                <form action="{{ route('admin.pengembalian.store') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="id_penyewaan" value="{{ $penyewaan->id_penyewaan }}">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                    <div class="space-y-6">
-                        <h3 class="text-[#B37428] font-black uppercase text-xs tracking-widest border-b pb-2">Detail
-                            Transaksi</h3>
+                    <div class="row g-5">
+                        <div class="col-md-6">
+                            <h3 class="h6 text-accent-gold fw-black text-uppercase tracking-widest mb-4 pb-2 border-bottom">
+                                Detail Transaksi
+                            </h3>
 
-                        <div>
-                            <label class="block text-[#2B2118] text-[10px] font-black uppercase mb-2 ml-1">Pelanggan</label>
-                            <div
-                                class="w-full px-6 py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl font-bold text-[#2B2118]">
-                                {{ $penyewaan->nama_pelanggan }} </div>
+                            <div class="mb-4">
+                                <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Pelanggan</label>
+                                <div class="bg-light p-3 rounded-4 fw-black text-dark border">
+                                    <i class="fas fa-user me-2 text-muted"></i>
+                                    {{ $penyewaan->pelanggan->nama_pelanggan ?? 'Nama Tidak Ditemukan' }}
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-4">
+                                <div class="col-6">
+                                    <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Batas Kembali</label>
+                                    <input type="date" id="tgl_rencana" value="{{ $penyewaan->tanggal_kembali_rencana }}"
+                                        class="form-control bg-danger bg-opacity-10 border-0 py-3 fw-bold text-danger text-center"
+                                        readonly>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Tgl Kembali</label>
+                                    <input type="date" id="tgl_kembali_real" name="tanggal_kembali"
+                                        value="{{ date('Y-m-d') }}"
+                                        class="form-control bg-light border-0 py-3 fw-bold text-dark text-center">
+                                </div>
+                            </div>
+
+                            <div id="info_terlambat" class="d-none animate-pulse alert alert-danger border-0 shadow-sm rounded-4 text-center py-3">
+                                <h4 class="h6 fw-black text-uppercase mb-0">
+                                    <i class="fas fa-exclamation-triangle me-2"></i> Terlambat <span id="jumlah_hari">0</span> Hari!
+                                </h4>
+                            </div>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-[#2B2118] text-[10px] font-black uppercase mb-2 ml-1">Batas
-                                    Kembali</label>
-                                <input type="date" id="tgl_rencana" value="{{ $penyewaan->tanggal_kembali_rencana }}"
-                                    class="w-full px-6 py-4 bg-red-50 border-2 border-red-100 rounded-2xl font-bold text-red-600 outline-none"
-                                    readonly>
-                            </div>
-                            <div>
-                                <label class="block text-[#2B2118] text-[10px] font-black uppercase mb-2 ml-1">Tgl Kembali
-                                    (Realitas)</label>
-                                <input type="date" id="tgl_kembali_real" name="tanggal_kembali"
-                                    value="{{ date('Y-m-d') }}"
-                                    class="w-full px-6 py-4 bg-orange-50/30 border-2 border-gray-100 rounded-2xl focus:border-[#B37428] focus:outline-none font-bold">
-                            </div>
-                        </div>
+                        <div class="col-md-6">
+                            <h3 class="h6 text-accent-gold fw-black text-uppercase tracking-widest mb-4 pb-2 border-bottom">
+                                Validasi Kondisi
+                            </h3>
 
-                        <div id="info_terlambat"
-                            class="hidden animate-pulse bg-red-600 text-white p-4 rounded-2xl text-xs font-black uppercase text-center">
-                            Terlambat <span id="jumlah_hari">0</span> Hari!
+                            <div class="mb-4">
+                                <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Total Denda (Otomatis)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-0 ps-3 fw-black text-accent-gold">Rp</span>
+                                    <input type="number" id="input_denda" name="denda" value="0"
+                                        class="form-control bg-light border-0 py-3 fw-black text-dark" readonly>
+                                </div>
+                                <p class="text-muted fw-bold mt-2 ps-2" style="font-size: 9px;">* Denda: Rp 10.000 / hari keterlambatan</p>
+                            </div>
+
+                            <div class="mb-0">
+                                <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Keterangan Kondisi</label>
+                                <textarea name="keterangan" rows="3" placeholder="Catatan tambahan (contoh: Kostum kotor)..."
+                                    class="form-control bg-light border-0 py-3 fw-bold"></textarea>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="space-y-6">
-                        <h3 class="text-[#B37428] font-black uppercase text-xs tracking-widest border-b pb-2">Validasi
-                            Kondisi</h3>
-
-                        <div>
-                            <label class="block text-[#2B2118] text-[10px] font-black uppercase mb-2 ml-1">Total Denda
-                                (Otomatis)</label>
-                            <div class="relative group">
-                                <span
-                                    class="absolute inset-y-0 left-0 flex items-center pl-4 text-[#B37428] font-black">Rp</span>
-                                <input type="number" id="input_denda" name="denda" value="0"
-                                    class="w-full pl-12 pr-4 py-4 bg-orange-50/30 border-2 border-gray-100 rounded-2xl focus:border-[#B37428] focus:outline-none font-bold text-[#2B2118]">
+                    <div class="row g-3 mt-5">
+                        <div class="col-md-8 offset-md-2 text-center">
+                            <div class="d-flex gap-3">
+                                <a href="{{ route('admin.penyewaan.index') }}"
+                                    class="btn btn-light fw-bold text-uppercase px-4 py-3 rounded-4 shadow-sm border flex-fill">
+                                    Batal
+                                </a>
+                                <button type="submit"
+                                    class="btn btn-dark fw-black text-uppercase px-5 py-3 rounded-4 shadow-lg flex-fill" style="letter-spacing: 2px;">
+                                    Konfirmasi Kembali
+                                </button>
                             </div>
-                            <p class="text-[9px] text-gray-400 mt-2 ml-1">*Denda: Rp 10.000 / hari keterlambatan</p>
-                        </div>
-
-                        <div>
-                            <label class="block text-[#2B2118] text-[10px] font-black uppercase mb-2 ml-1">Keterangan
-                                Kondisi</label>
-                            <textarea name="keterangan" rows="3" placeholder="Catatan tambahan..."
-                                class="w-full px-6 py-4 bg-orange-50/30 border-2 border-gray-100 rounded-2xl focus:border-[#B37428] focus:outline-none font-medium text-sm"></textarea>
                         </div>
                     </div>
-                </div>
-
-                <div class="pt-10 flex gap-4">
-                    <a href="{{ route('admin.penyewaan.index') }}"
-                        class="flex-1 bg-gray-100 text-gray-500 font-black py-5 rounded-2xl text-center text-xs tracking-widest uppercase">Batal</a>
-                    <button type="submit"
-                        class="flex-[2] bg-[#2B2118] text-white font-black py-5 rounded-2xl shadow-xl hover:bg-[#B37428] transition-all flex items-center justify-center gap-3 text-xs tracking-[0.2em]">
-                        KONFIRMASI PENGEMBALIAN
-                    </button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
+@endsection
 
+@push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const tglRencana = document.getElementById('tgl_rencana');
@@ -97,6 +110,10 @@
                 const d1 = new Date(tglRencana.value);
                 const d2 = new Date(tglKembali.value);
 
+                // Set hours to 0 to compare dates only
+                d1.setHours(0,0,0,0);
+                d2.setHours(0,0,0,0);
+
                 const diffTime = d2 - d1;
                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
@@ -104,11 +121,11 @@
                     const dendaPerHari = 10000; 
                     inputDenda.value = diffDays * dendaPerHari;
 
-                    infoTerlambat.classList.remove('hidden');
+                    infoTerlambat.classList.remove('d-none');
                     jumlahHariText.innerText = diffDays;
                 } else {
                     inputDenda.value = 0;
-                    infoTerlambat.classList.add('hidden');
+                    infoTerlambat.classList.add('d-none');
                 }
             }
 
@@ -117,4 +134,4 @@
             tglKembali.addEventListener('change', hitungDenda);
         });
     </script>
-@endsection
+@endpush

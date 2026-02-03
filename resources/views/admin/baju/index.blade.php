@@ -1,72 +1,102 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="max-w-6xl mx-auto">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-            <div>
-                <h1 class="text-3xl font-black text-[#2B2118] tracking-tight">Koleksi Busana</h1>
-                <p class="text-gray-500 font-medium">Kelola inventaris kostum tari dan baju adat.</p>
-            </div>
-            <div class="flex flex-col sm:flex-row gap-3">
-                <div class="relative">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                        <i class="fas fa-search text-gray-400"></i>
-                    </span>
-                    <input type="text" id="searchInput"
-                        class="block w-full sm:w-64 pl-10 pr-4 py-3 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-[#B37428] focus:border-transparent outline-none transition-all shadow-sm"
-                        placeholder="Cari nama busana...">
-                </div>
-
-                <a href="{{ route('admin.baju.create') }}"
-                    class="flex items-center justify-center gap-2 bg-[#2B2118] text-white px-6 py-3 rounded-2xl font-bold hover:bg-[#B37428] transition-all shadow-lg shadow-amber-900/20">
-                    <i class="fas fa-plus-circle"></i>
-                    Tambah Koleksi
-                </a>
-            </div>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 fw-black text-dark text-uppercase tracking-tight-custom mb-1">
+                Koleksi <span class="text-accent-gold">Busana</span>
+            </h1>
+            <p class="text-muted small fw-bold tracking-wide mb-0">Kelola stok dan inventaris kostum.</p>
         </div>
+        <a href="{{ route('admin.baju.create') }}"
+            class="btn btn-dark fw-bold text-uppercase px-4 py-2 rounded-3 shadow-sm" style="font-size: 0.75rem; letter-spacing: 1px;">
+            <i class="fas fa-plus me-2"></i> Tambah Koleksi
+        </a>
+    </div>
 
-        <div class="bg-white rounded-[2.5rem] shadow-xl border border-gray-100 overflow-hidden">
-            <table class="w-full text-left border-collapse" id="bajuTable">
-                <thead>
-                    <tr class="bg-[#2B2118] text-white">
-                        <th class="px-6 py-5 text-xs font-bold uppercase tracking-widest">Foto</th>
-                        <th class="px-6 py-5 text-xs font-bold uppercase tracking-widest">Nama Busana</th>
-                        <th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-center">Stok</th>
-                        <th class="px-6 py-5 text-xs font-bold uppercase tracking-widest">Harga Sewa</th>
-                        <th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-center">Aksi</th>
+    <div class="mb-4 position-relative">
+        <div class="position-absolute translate-middle-y top-50 start-0 ps-3">
+            <i class="fas fa-search text-muted"></i>
+        </div>
+        <input type="text" id="searchInput"
+            class="form-control ps-5 py-3 border-0 shadow-sm rounded-4 fw-bold"
+            placeholder="Cari nama busana...">
+    </div>
+
+    {{-- Alerts --}}
+    @if (session('success'))
+        <div id="success-alert" class="alert alert-success border-0 border-start border-4 border-success shadow-sm rounded-3 d-flex justify-content-between align-items-center mb-4">
+            <div class="d-flex align-items-center gap-3">
+                <div class="bg-success bg-opacity-10 p-2 rounded-circle text-success">
+                    <i class="fas fa-check"></i>
+                </div>
+                <p class="mb-0 fw-bold small text-success">{{ session('success') }}</p>
+            </div>
+            <button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger border-0 border-start border-4 border-danger shadow-sm rounded-3 d-flex justify-content-between align-items-center mb-4">
+            <div class="d-flex align-items-center gap-3">
+                <div class="bg-danger bg-opacity-10 p-2 rounded-circle text-danger">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <p class="mb-0 fw-bold small text-danger">{{ session('error') }}</p>
+            </div>
+            <button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>
+        </div>
+    @endif
+
+    <div class="card border-0 shadow-sm rounded-5 overflow-hidden mb-5">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="bajuTable">
+                <thead class="bg-primary-dark text-white">
+                    <tr>
+                        <th class="p-4 text-uppercase small fw-bold text-center" style="letter-spacing: 1px; width: 100px;">Foto</th>
+                        <th class="p-4 text-uppercase small fw-bold" style="letter-spacing: 1px;">Nama Busana</th>
+                        <th class="p-4 text-uppercase small fw-bold text-center" style="letter-spacing: 1px;">Stok</th>
+                        <th class="p-4 text-uppercase small fw-bold" style="letter-spacing: 1px;">Harga Sewa</th>
+                        <th class="p-4 text-uppercase small fw-bold text-center" style="letter-spacing: 1px;">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-100">
+                <tbody class="border-top-0">
                     @foreach ($bajus as $b)
-                        <tr class="baju-row hover:bg-amber-50/30 transition-all">
-                            <td class="px-6 py-4">
-                                <img src="{{ asset('storage/' . $b->foto) }}"
-                                    class="w-16 h-20 object-cover rounded-xl shadow-md border-2 border-white">
+                        <tr class="baju-row group">
+                            <td class="p-3 text-center">
+                                <div class="mx-auto rounded-3 overflow-hidden border border-2 border-white shadow-sm" style="width: 60px; height: 80px;">
+                                    <img src="{{ asset('storage/' . $b->foto) }}" class="w-100 h-100 object-fit-cover">
+                                </div>
                             </td>
-                            <td class="px-6 py-4 font-bold text-[#2B2118] nama-baju">{{ $b->nama_baju }}</td>
-                            <td class="px-6 py-4 text-center">
-                                <span class="bg-orange-100 text-[#B37428] px-3 py-1 rounded-full text-xs font-black">
+                            <td class="p-3">
+                                <div class="fw-black text-dark h5 mb-0 nama-baju">{{ $b->nama_baju }}</div>
+                                <div class="text-uppercase text-muted fw-bold" style="font-size: 10px; letter-spacing: 1px;">ID: #{{ $b->id_baju }}</div>
+                            </td>
+                            <td class="p-3 text-center">
+                                <span class="badge {{ $b->stok > 0 ? 'bg-success' : 'bg-danger' }} bg-opacity-10 {{ $b->stok > 0 ? 'text-success' : 'text-danger' }} px-3 py-2 rounded-pill fw-bold" style="font-size: 0.75rem;">
                                     {{ $b->stok }} Pcs
                                 </span>
                             </td>
-                            <td class="px-6 py-4 font-black text-[#2B2118]">
-                                Rp {{ number_format($b->harga_sewa, 0, ',', '.') }}
+                            <td class="p-3">
+                                <div class="fw-bold text-accent-gold">Rp {{ number_format($b->harga_sewa, 0, ',', '.') }}</div>
+                                <div class="text-uppercase text-muted fw-bold" style="font-size: 10px;">/ Sewa</div>
                             </td>
-                            <td class="px-6 py-4">
-                                <div class="flex justify-center items-center gap-2">
+                            <td class="p-3 text-center">
+                                <div class="d-flex justify-content-center gap-2">
                                     <a href="{{ route('admin.baju.edit', $b->id_baju) }}"
-                                        class="w-10 h-10 bg-[#FFD95A]/30 text-[#B37428] rounded-xl flex items-center justify-center hover:bg-[#FFD95A] transition-all shadow-sm">
+                                        class="btn btn-warning btn-sm border-0 text-white rounded-3 shadow-sm p-2"
+                                        title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
-
                                     <form action="{{ route('admin.baju.destroy', $b->id_baju) }}" method="POST"
-                                        id="delete-form-{{ $b->id_baju }}" class="inline">
+                                        id="delete-form-{{ $b->id_baju }}" class="m-0">
                                         @csrf
                                         @method('DELETE')
                                         <button type="button"
                                             onclick="confirmDelete('{{ $b->id_baju }}', '{{ $b->nama_baju }}')"
-                                            class="w-10 h-10 bg-red-100 text-red-600 rounded-xl flex items-center justify-center hover:bg-red-600 hover:text-white transition-all shadow-sm">
-                                            <i class="fa fa-trash"></i>
+                                            class="btn btn-danger btn-sm border-0 rounded-3 shadow-sm p-2"
+                                            title="Hapus">
+                                            <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
                                 </div>
@@ -75,18 +105,29 @@
                     @endforeach
                 </tbody>
             </table>
-            <div id="noResults" class="hidden py-20 text-center">
-                <i class="fas fa-search text-gray-200 text-6xl mb-4"></i>
-                <p class="text-gray-400 font-medium">Baju yang kamu cari tidak ditemukan.</p>
-            </div>
-
-            @if ($bajus->isEmpty())
-                <div class="py-20 text-center">
-                    <i class="fas fa-tshirt text-gray-200 text-6xl mb-4"></i>
-                    <p class="text-gray-400 font-medium">Belum ada koleksi baju.</p>
-                </div>
-            @endif
         </div>
+
+        <div id="noResults" class="d-none p-5 text-center">
+            <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
+                <i class="fas fa-search text-muted h3 mb-0"></i>
+            </div>
+            <h4 class="fw-bold text-dark">Tidak ditemukan</h4>
+            <p class="text-muted small">Coba kata kunci lain.</p>
+        </div>
+
+        @if ($bajus->isEmpty())
+            <div class="p-5 text-center">
+                <div class="bg-accent-gold bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 100px; height: 100px;">
+                    <i class="fas fa-tshirt text-accent-gold h2 mb-0 opacity-50"></i>
+                </div>
+                <h3 class="fw-black text-dark mb-2 text-uppercase">Belum Ada Koleksi</h3>
+                <p class="text-muted mb-4 mx-auto" style="max-width: 400px;">Mulai tambahkan koleksi busana untuk disewakan kepada pelanggan setia Anda.</p>
+                <a href="{{ route('admin.baju.create') }}"
+                    class="btn btn-warning fw-bold text-uppercase px-4 py-2 border-0 shadow-sm" style="background-color: var(--accent-gold); color: white;">
+                    Tambah Sekarang
+                </a>
+            </div>
+        @endif
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -99,39 +140,33 @@
             rows.forEach(row => {
                 let namaBaju = row.querySelector('.nama-baju').textContent.toLowerCase();
                 if (namaBaju.includes(filter)) {
-                    row.style.display = "";
+                    row.classList.remove('d-none');
                     hasData = true;
                 } else {
-                    row.style.display = "none";
+                    row.classList.add('d-none');
                 }
             });
 
-            document.getElementById('noResults').style.display = hasData ? "none" : "block";
+            let noResults = document.getElementById('noResults');
+            if (noResults) {
+                if (hasData) {
+                    noResults.classList.add('d-none');
+                } else {
+                    noResults.classList.remove('d-none');
+                }
+            }
         });
 
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 5000,
-            timerProgressBar: true
+        document.addEventListener('DOMContentLoaded', function() {
+            const alert = document.getElementById('success-alert');
+            if (alert) {
+                setTimeout(() => {
+                    alert.style.transition = 'opacity 0.5s ease';
+                    alert.style.opacity = '0';
+                    setTimeout(() => alert.remove(), 500);
+                }, 3000);
+            }
         });
-
-        @if (session('success'))
-            Toast.fire({
-                icon: 'success',
-                title: '{{ session('success') }}'
-            });
-        @endif
-
-        @if (session('error'))
-            Swal.fire({
-                icon: 'error',
-                title: 'Gagal',
-                text: '{{ session('error') }}',
-                confirmButtonColor: '#2B2118'
-            });
-        @endif
 
         function confirmDelete(id, name) {
             Swal.fire({
@@ -140,9 +175,16 @@
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#ef4444',
-                cancelButtonColor: '#2B2118',
+                cancelButtonColor: '#1f2937',
                 confirmButtonText: 'Ya, Hapus!',
-                cancelButtonText: 'Batal'
+                cancelButtonText: 'Batal',
+                background: '#fff',
+                color: '#2B2118',
+                customClass: {
+                    popup: 'rounded-5 px-4',
+                    confirmButton: 'rounded-3 fw-bold text-uppercase p-2 px-4 shadow-sm',
+                    cancelButton: 'rounded-3 fw-bold text-uppercase p-2 px-4 shadow-sm'
+                }
             }).then((result) => {
                 if (result.isConfirmed) {
                     document.getElementById('delete-form-' + id).submit();

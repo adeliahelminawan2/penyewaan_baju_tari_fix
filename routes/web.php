@@ -23,7 +23,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
     Route::get('/dashboard', function () {
         $jml_baju = Baju::count();
-        $jml_pelanggan = Penyewaan::distinct('nama_pelanggan')->count('nama_pelanggan');
+        $jml_pelanggan = Penyewaan::distinct('id_pelanggan')->count('id_pelanggan');
         $jml_sewa_aktif = Penyewaan::whereIn('status', ['disewa', 'Disewa', 'Proses', 'Belum Kembali'])->count();
 
         return view('admin.dashboard', compact('jml_baju', 'jml_pelanggan', 'jml_sewa_aktif'));

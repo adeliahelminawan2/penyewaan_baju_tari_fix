@@ -20,7 +20,6 @@ class Pengembalian extends Model
         'keterangan',
     ];
 
-    // Relasi ke Penyewaan
     public function penyewaan()
     {
         return $this->belongsTo(Penyewaan::class, 'id_penyewaan', 'id_penyewaan');

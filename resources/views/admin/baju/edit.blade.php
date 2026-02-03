@@ -1,112 +1,141 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="max-w-4xl mx-auto">
-        <div class="mb-8 flex items-center justify-between">
+    <div class="mx-auto" style="max-width: 900px;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <h1 class="text-3xl font-black text-[#2B2118] tracking-tight">Edit Koleksi Busana</h1>
-                <p class="text-gray-500 mt-1 font-medium">Perbarui informasi detail kostum dan stok barang.</p>
+                <h1 class="h3 fw-black text-dark text-uppercase tracking-tight-custom mb-1">
+                    Edit <span class="text-accent-gold">Koleksi</span>
+                </h1>
+                <p class="text-muted small fw-bold tracking-wide">Perbarui detail busana ID: #{{ $baju->id_baju }}</p>
             </div>
-            <div class="w-16 h-1 bg-[#B37428] rounded-full"></div>
+            <a href="{{ route('admin.baju.index') }}"
+                class="btn btn-light fw-bold text-uppercase px-4 py-2 rounded-3 shadow-sm border" style="font-size: 0.75rem; letter-spacing: 1px;">
+                <i class="fas fa-arrow-left me-2"></i> Kembali
+            </a>
         </div>
 
-        <div class="bg-white rounded-[2.5rem] shadow-2xl shadow-gray-200/50 overflow-hidden border border-gray-100">
-            <div class="bg-[#2B2118] p-8 text-center relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4 opacity-10">
-                    <i class="fas fa-tshirt text-6xl text-[#B37428]"></i>
-                </div>
-                <h2 class="text-2xl font-bold text-white relative z-10 uppercase tracking-widest">Update Data Produk</h2>
-                <p class="text-amber-200/60 text-sm italic mt-1 relative z-10 font-medium">
-                    "Pastikan informasi harga dan stok selalu akurat"
-                </p>
+        <div class="card border-0 shadow-sm rounded-5 overflow-hidden position-relative">
+            <div class="position-absolute top-0 end-0 p-5 opacity-5 pointer-events-none">
+                <i class="fas fa-edit d-none d-md-block" style="font-size: 8rem; color: var(--primary-dark);"></i>
             </div>
 
-            <form action="{{ route('admin.baju.update', $baju->id_baju) }}" method="POST" enctype="multipart/form-data"
-                class="p-10 space-y-6">
-                @csrf
-                @method('PUT')
+            <div class="card-body p-4 p-md-5 position-relative z-1">
+                <form action="{{ route('admin.baju.update', $baju->id_baju) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
 
-                <div>
-                    <label class="block text-[#2B2118] font-bold text-sm uppercase tracking-widest mb-3">Nama Busana /
-                        Kostum</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-[#B37428]">
-                            <i class="fas fa-tshirt"></i>
-                        </span>
-                        <input type="text" name="nama_baju" value="{{ old('nama_baju', $baju->nama_baju) }}"
-                            class="w-full bg-orange-50/30 border-2 border-gray-100 pl-12 pr-4 py-4 rounded-2xl focus:border-[#B37428] focus:bg-white outline-none transition-all duration-300 font-medium text-[#2B2118]"
-                            placeholder="Contoh: Tari Piring Lengkap" required>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-[#2B2118] font-bold text-sm uppercase tracking-widest mb-3">Harga Sewa
-                            (Rp)</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-[#B37428] font-bold">
-                                Rp
-                            </span>
-                            <input type="number" name="harga_sewa" value="{{ old('harga_sewa', $baju->harga_sewa) }}"
-                                class="w-full bg-orange-50/30 border-2 border-gray-100 pl-12 pr-4 py-4 rounded-2xl focus:border-[#B37428] focus:bg-white outline-none transition-all duration-300 font-medium text-[#2B2118]"
-                                placeholder="50000" required>
+                    <div class="mb-4">
+                        <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Nama Baju / Kostum</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0 ps-3"><i class="fas fa-tshirt text-muted"></i></span>
+                            <input type="text" name="nama_baju" value="{{ old('nama_baju', $baju->nama_baju) }}"
+                                class="form-control bg-light border-0 py-3 fw-bold"
+                                placeholder="Contoh: Tari Piring" required>
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block text-[#2B2118] font-bold text-sm uppercase tracking-widest mb-3">Jumlah
-                            Stok</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-[#B37428]">
-                                <i class="fas fa-boxes"></i>
-                            </span>
-                            <input type="number" name="stok" value="{{ old('stok', $baju->stok) }}"
-                                class="w-full bg-orange-50/30 border-2 border-gray-100 pl-12 pr-4 py-4 rounded-2xl focus:border-[#B37428] focus:bg-white outline-none transition-all duration-300 font-medium text-[#2B2118]"
-                                placeholder="10" required>
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Harga Sewa (Rp)</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-0 ps-3 fw-bold text-muted">Rp</span>
+                                <input type="number" name="harga_sewa" value="{{ old('harga_sewa', $baju->harga_sewa) }}"
+                                    class="form-control bg-light border-0 py-3 fw-bold"
+                                    placeholder="50000" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Jumlah Stok</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-0 ps-3"><i class="fas fa-boxes text-muted"></i></span>
+                                <input type="number" name="stok" value="{{ old('stok', $baju->stok) }}"
+                                    class="form-control bg-light border-0 py-3 fw-bold"
+                                    placeholder="50" required>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="bg-gray-50 p-6 rounded-[2rem] border-2 border-dashed border-gray-200">
-                    <label
-                        class="block text-[#2B2118] font-bold text-sm uppercase tracking-widest mb-4 text-center">Manajemen
-                        Foto</label>
-
-                    <div class="flex flex-col md:flex-row items-center gap-6">
-                        @if ($baju->foto)
-                            <div class="relative group">
-                                <img src="{{ asset('storage/' . $baju->foto) }}"
-                                    class="w-32 h-40 object-cover rounded-2xl shadow-md border-4 border-white">
-                                <div
-                                    class="absolute inset-0 bg-black/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                    <span class="text-white text-[10px] font-bold uppercase tracking-tighter">Foto Saat
-                                        Ini</span>
+                    <div class="mb-5">
+                        <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Manajemen Foto</label>
+                        <div class="bg-light rounded-4 p-4 border mb-3">
+                            <div class="row align-items-center">
+                                @if ($baju->foto)
+                                    <div class="col-auto">
+                                        <div class="position-relative">
+                                            <img src="{{ asset('storage/' . $baju->foto) }}" class="rounded-3 shadow-sm border border-2 border-white" style="width: 100px; height: 130px; object-fit: cover;">
+                                            <span class="position-absolute bottom-0 start-50 translate-middle-x badge bg-dark text-white text-uppercase fw-bold mb-n2" style="font-size: 8px;">Saat Ini</span>
+                                        </div>
+                                    </div>
+                                @endif
+                                <div class="col">
+                                    <div class="position-relative overflow-hidden rounded-4 border-2 border-dashed border-secondary border-opacity-25 bg-white p-3 text-center cursor-pointer hover-border-gold transition-all" id="drop-area">
+                                        <i class="fas fa-cloud-upload-alt text-muted mb-1"></i>
+                                        <p class="text-muted small fw-bold mb-0">Klik untuk Ganti Foto</p>
+                                        <input type="file" name="foto"
+                                            class="position-absolute top-0 start-0 w-100 h-100 opacity-0 cursor-pointer"
+                                            accept="image/*" onchange="previewImage(event)">
+                                    </div>
+                                    <p class="text-muted mt-2 mb-0 italic" style="font-size: 10px;">* Biarkan kosong jika tidak ingin mengubah foto</p>
                                 </div>
                             </div>
-                        @endif
+                        </div>
 
-                        <div class="flex-1 w-full">
-                            <p class="text-xs text-gray-500 mb-2 font-medium italic">* Kosongkan jika tidak ingin mengganti
-                                foto</p>
-                            <input type="file" name="foto"
-                                class="w-full text-sm text-gray-500 file:mr-4 file:py-3 file:px-6 file:rounded-2xl file:border-0 file:text-sm file:font-bold file:bg-[#B37428] file:text-white hover:file:bg-[#2B2118] file:transition-all"
-                                accept="image/*">
+                        <div id="preview-wrapper" class="d-none mt-4 text-center">
+                            <div class="position-relative d-inline-block">
+                                <img id="img-preview" class="rounded-3 shadow-lg border border-3 border-white" style="height: 150px; object-fit: cover;">
+                                <div class="position-absolute translate-middle top-0 start-100 bg-success rounded-circle border border-2 border-white d-flex align-items-center justify-content-center text-white" style="width: 25px; height: 25px;">
+                                    <i class="fas fa-check" style="font-size: 10px;"></i>
+                                </div>
+                            </div>
+                            <p class="text-success fw-bold small text-uppercase tracking-widest mt-2">Pratinjau Foto Baru</p>
                         </div>
                     </div>
-                </div>
 
-                <div class="flex flex-col md:flex-row gap-4 pt-6">
-                    <button type="submit"
-                        class="flex-1 bg-[#2B2118] text-white font-bold py-5 rounded-2xl hover:bg-[#B37428] transition-all duration-300 shadow-xl shadow-amber-900/20 flex items-center justify-center gap-3 group">
-                        <i class="fas fa-sync-alt group-hover:rotate-180 transition-transform duration-500"></i>
-                        Perbarui Koleksi
-                    </button>
-                    <a href="{{ route('admin.baju.index') }}"
-                        class="px-10 py-5 bg-gray-100 text-gray-500 font-bold rounded-2xl hover:bg-gray-200 transition-all duration-300 text-center">
-                        Batal
-                    </a>
-                </div>
-            </form>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <button type="submit" class="btn btn-dark w-100 py-3 fw-bold text-uppercase shadow-sm" style="letter-spacing: 1px;">
+                                <i class="fas fa-sync-alt me-2"></i> Perbarui Koleksi
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <a href="{{ route('admin.baju.index') }}" class="btn btn-light w-100 py-3 fw-bold text-uppercase border shadow-sm" style="letter-spacing: 1px;">
+                                Batal
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        function previewImage(event) {
+            const reader = new FileReader();
+            const output = document.getElementById('img-preview');
+            const wrapper = document.getElementById('preview-wrapper');
+
+            reader.onload = function() {
+                if (reader.readyState === 2) {
+                    output.src = reader.result;
+                    wrapper.classList.remove('d-none');
+                }
+            }
+
+            if (event.target.files[0]) {
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        }
+    </script>
+@endpush
+
+@push('styles')
+    <style>
+        .hover-border-gold:hover {
+            border-color: var(--accent-gold) !important;
+            background-color: rgba(179, 116, 40, 0.05) !important;
+        }
+    </style>
+@endpush

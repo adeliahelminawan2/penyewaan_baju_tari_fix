@@ -12,7 +12,7 @@ class PengembalianController extends Controller
 {
     public function create($id)
     {
-        $penyewaan = Penyewaan::with(['details.baju'])
+        $penyewaan = Penyewaan::with(['details.baju', 'pelanggan'])
             ->findOrFail($id);
 
         return view('admin.pengembalian.create', compact('penyewaan'));

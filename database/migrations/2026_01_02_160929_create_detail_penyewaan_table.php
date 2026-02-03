@@ -11,13 +11,11 @@ return new class extends Migration
         Schema::create('detail_penyewaan', function (Blueprint $table) {
             $table->id('id_detail');
 
-            // Relasi ke penyewaan
             $table->foreignId('id_penyewaan')->references('id_penyewaan')->on('penyewaan')->onDelete('cascade');
 
-            // Relasi ke baju (BAGIAN INI YANG HARUS TELITI)
             $table->foreignId('id_baju')
-                ->references('id_baju') // Harus merujuk ke id_baju
-                ->on('baju')            // Di tabel baju
+                ->references('id_baju') 
+                ->on('baju')            
                 ->onDelete('cascade');
 
             $table->integer('jumlah');

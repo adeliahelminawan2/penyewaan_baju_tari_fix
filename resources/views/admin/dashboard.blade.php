@@ -1,53 +1,55 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div
-            class="bg-white p-8 rounded-[2rem] shadow-sm border-l-8 border-[#B37428] relative overflow-hidden group hover:shadow-xl transition-all">
-            <div class="relative z-10">
-                <h3 class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Total Koleksi</h3>
-                <p class="text-4xl font-black text-[#2B2118]">{{ $jml_baju }}</p>
-                <p class="text-[10px] text-gray-500 mt-2 font-bold uppercase">Busana Tersedia</p>
+    <div class="row g-4">
+        <!-- Total Koleksi -->
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm rounded-5 h-100 position-relative overflow-hidden group" style="border-left: 8px solid var(--accent-gold) !important;">
+                <div class="card-body p-4 position-relative z-1">
+                    <h3 class="text-muted fw-bold text-uppercase mb-2" style="font-size: 0.75rem; letter-spacing: 2px;">Total Koleksi</h3>
+                    <p class="h1 fw-black text-dark mb-1">{{ $jml_baju }}</p>
+                    <p class="text-muted fw-bold text-uppercase mb-0" style="font-size: 10px;">Busana Tersedia</p>
+                </div>
+                <i class="fas fa-tshirt position-absolute" style="right: -10px; bottom: -10px; font-size: 5rem; color: var(--accent-gold); opacity: 0.1;"></i>
             </div>
-            <i
-                class="fas fa-tshirt absolute -right-4 -bottom-4 text-7xl text-gray-50 opacity-10 group-hover:text-[#B37428] group-hover:opacity-20 transition-all"></i>
         </div>
 
-        <div
-            class="bg-white p-8 rounded-[2rem] shadow-sm border-l-8 border-[#2B2118] relative overflow-hidden group hover:shadow-xl transition-all">
-            <div class="relative z-10">
-                <h3 class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Pelanggan</h3>
-                <p class="text-4xl font-black text-[#2B2118]">{{ $jml_pelanggan }}</p>
-                <p class="text-[10px] text-gray-500 mt-2 font-bold uppercase">Pernah Menyewa</p>
+        <!-- Pelanggan -->
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm rounded-5 h-100 position-relative overflow-hidden group" style="border-left: 8px solid var(--primary-dark) !important;">
+                <div class="card-body p-4 position-relative z-1">
+                    <h3 class="text-muted fw-bold text-uppercase mb-2" style="font-size: 0.75rem; letter-spacing: 2px;">Pelanggan</h3>
+                    <p class="h1 fw-black text-dark mb-1">{{ $jml_pelanggan }}</p>
+                    <p class="text-muted fw-bold text-uppercase mb-0" style="font-size: 10px;">Pernah Menyewa</p>
+                </div>
+                <i class="fas fa-users position-absolute" style="right: -10px; bottom: -10px; font-size: 5rem; color: var(--primary-dark); opacity: 0.1;"></i>
             </div>
-            <i
-                class="fas fa-users absolute -right-4 -bottom-4 text-7xl text-gray-50 opacity-10 group-hover:text-[#2B2118] group-hover:opacity-20 transition-all"></i>
         </div>
 
-        <div
-            class="bg-white p-8 rounded-[2rem] shadow-sm border-l-8 border-yellow-600 relative overflow-hidden group hover:shadow-xl transition-all">
-            <div class="relative z-10">
-                <h3 class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Sewa Aktif</h3>
-                <p class="text-4xl font-black text-[#B37428]">{{ $jml_sewa_aktif }}</p>
-                <p class="text-[10px] text-gray-500 mt-2 font-bold uppercase">Sedang Dipinjam</p>
+        <!-- Sewa Aktif -->
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm rounded-5 h-100 position-relative overflow-hidden group" style="border-left: 8px solid #ca8a04 !important;">
+                <div class="card-body p-4 position-relative z-1">
+                    <h3 class="text-muted fw-bold text-uppercase mb-2" style="font-size: 0.75rem; letter-spacing: 2px;">Sewa Aktif</h3>
+                    <p class="h1 fw-black text-accent-gold mb-1">{{ $jml_sewa_aktif }}</p>
+                    <p class="text-muted fw-bold text-uppercase mb-0" style="font-size: 10px;">Sedang Dipinjam</p>
+                </div>
+                <i class="fas fa-clock position-absolute" style="right: -10px; bottom: -10px; font-size: 5rem; color: #ca8a04; opacity: 0.1;"></i>
             </div>
-            <i
-                class="fas fa-clock absolute -right-4 -bottom-4 text-7xl text-gray-50 opacity-10 group-hover:text-yellow-600 group-hover:opacity-20 transition-all"></i>
         </div>
     </div>
 
-    <div class="mt-12 bg-[#2B2118] p-10 rounded-[3rem] text-center border-b-8 border-[#B37428] shadow-2xl">
-        <div class="max-w-2xl mx-auto">
-            <img src="{{ asset('img/LOGO.jpg') }}"
-                class="w-20 h-20 mx-auto rounded-2xl border-2 border-[#B37428] mb-6 shadow-lg">
-            <h2 class="text-2xl font-black text-[#B37428] uppercase tracking-[0.2em]">Selamat Datang, Administrator</h2>
-            <p class="text-gray-400 mt-4 text-sm leading-relaxed italic">
+    <!-- Welcome Section -->
+    <div class="mt-5 bg-primary-dark p-5 rounded-5 text-center shadow-lg position-relative" style="border-bottom: 8px solid var(--accent-gold);">
+        <div class="mx-auto" style="max-width: 700px;">
+            <img src="{{ asset('img/LOGO.jpg') }}" class="rounded-4 border border-2 border-accent-gold mb-4 shadow-lg" style="width: 80px; height: 80px;">
+            <h2 class="h3 fw-black text-accent-gold text-uppercase mb-3" style="letter-spacing: 0.2em;">Selamat Datang, Administrator</h2>
+            <p class="text-secondary mt-3 fst-italic" style="font-size: 0.9rem; line-height: 1.6;">
                 "Sistem Manajemen Inventaris Busana Laras siap digunakan. Kelola stok, pantau penyewaan, dan cetak laporan
                 dengan mudah dalam satu dashboard terpadu."
             </p>
-            <div class="mt-8 flex justify-center gap-4">
-                <a href="{{ route('admin.penyewaan.create') }}"
-                    class="bg-[#B37428] text-white px-8 py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-[#B37428] transition-all">
+            <div class="mt-4">
+                <a href="{{ route('admin.penyewaan.create') }}" class="btn btn-warning fw-bold text-uppercase px-4 py-2" style="background-color: var(--accent-gold); border: none; color: white; font-size: 0.75rem; letter-spacing: 1px;">
                     Mulai Transaksi Baru
                 </a>
             </div>

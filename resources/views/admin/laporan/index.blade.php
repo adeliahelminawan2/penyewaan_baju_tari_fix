@@ -1,126 +1,130 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="container-fluid">
-        <div class="flex no-print" style="justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-            <div>
-                <h1 style="font-size: 2rem; font-weight: 900; color: #2B2118; margin: 0;">Laporan Penyewaan</h1>
-                <p style="color: #6b7280;">Tinjau histori transaksi dan total pendapatan Busana Laras secara real-time.</p>
-            </div>
-
-            <button onclick="window.print()" class="no-print"
-                style="background: #B37428; color: white; padding: 10px 20px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 14px rgba(179, 116, 40, 0.3);">
-                <i class="fas fa-print"></i> Cetak Laporan
-            </button>
+    <div class="no-print d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 fw-black text-dark text-uppercase tracking-tight-custom mb-1">
+                Laporan <span class="text-accent-gold">Penyewaan</span>
+            </h1>
+            <p class="text-muted small fw-bold tracking-wide mb-0">Tinjau histori transaksi dan total pendapatan secara real-time.</p>
         </div>
+        <button onclick="window.print()" class="btn btn-dark fw-bold text-uppercase px-4 py-2 rounded-3 shadow-sm" style="font-size: 0.75rem; letter-spacing: 1px;">
+            <i class="fas fa-print me-2 text-accent-gold"></i> Cetak Laporan
+        </button>
+    </div>
 
-        <div class="flex" style="gap: 20px; margin-bottom: 2rem;">
-            <div
-                style="background: white; padding: 25px; border-radius: 25px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); flex: 1; border-left: 6px solid #B37428;">
-                <p
-                    style="color: #6b7280; margin: 0; font-weight: bold; font-size: 0.8rem; text-transform: uppercase; tracking: 0.1em;">
-                    Total Transaksi</p>
-                <h3 style="margin: 10px 0 0 0; font-size: 1.8rem; color: #2B2118; font-weight: 900;">{{ $laporan->count() }}
-                    <span style="font-size: 1rem; color: #9ca3af; font-weight: normal;">Sewa</span></h3>
-            </div>
-
-            <div
-                style="background: white; padding: 25px; border-radius: 25px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); flex: 1; border-left: 6px solid #2B2118;">
-                <p
-                    style="color: #6b7280; margin: 0; font-weight: bold; font-size: 0.8rem; text-transform: uppercase; tracking: 0.1em;">
-                    Total Omzet</p>
-                <h3 style="margin: 10px 0 0 0; font-size: 1.8rem; color: #B37428; font-weight: 900;">
-                    Rp {{ number_format($grandTotal, 0, ',', '.') }}
-                </h3>
+    <div class="row g-4 mb-4 no-print">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-5 overflow-hidden border-start border-5 border-accent-gold">
+                <div class="card-body p-4">
+                    <p class="text-muted small fw-black text-uppercase tracking-widest mb-1">Total Transaksi</p>
+                    <h3 class="fw-black text-dark mb-0">
+                        {{ $laporan->count() }} <span class="h6 text-muted fw-bold text-uppercase">Sewa</span>
+                    </h3>
+                </div>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-5 overflow-hidden border-start border-5 border-primary-dark">
+                <div class="card-body p-4">
+                    <p class="text-muted small fw-black text-uppercase tracking-widest mb-1">Total Omzet</p>
+                    <h3 class="fw-black text-accent-gold mb-0">
+                        Rp {{ number_format($grandTotal, 0, ',', '.') }}
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <div class="bg-white p-8 rounded-[2rem] shadow-sm no-print" style="margin-bottom: 2rem; border: 1px solid #f3f4f6;">
-            <form action="{{ route('admin.laporan.index') }}" method="GET" class="flex"
-                style="gap: 1.5rem; align-items: flex-end;">
-                <div style="flex: 1;">
-                    <label
-                        style="display: block; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 10px; color: #2B2118; tracking: 0.1em;">Dari
-                        Tanggal</label>
+    <!-- Filter Section -->
+    <div class="card border-0 shadow-sm rounded-5 mb-4 no-print border">
+        <div class="card-body p-4">
+            <form action="{{ route('admin.laporan.index') }}" method="GET" class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label text-dark fw-black text-uppercase small tracking-widest mb-2">Dari Tanggal</label>
                     <input type="date" name="tgl_mulai" value="{{ request('tgl_mulai') }}"
-                        style="width: 100%; padding: 14px; border-radius: 15px; border: 1px solid #eee; background: #fcfcfc; color: #2B2118; font-weight: 600;">
+                        class="form-control bg-light border-0 py-3 fw-bold">
                 </div>
-                <div style="flex: 1;">
-                    <label
-                        style="display: block; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 10px; color: #2B2118; tracking: 0.1em;">Sampai
-                        Tanggal</label>
+                <div class="col-md-4">
+                    <label class="form-label text-dark fw-black text-uppercase small tracking-widest mb-2">Sampai Tanggal</label>
                     <input type="date" name="tgl_selesai" value="{{ request('tgl_selesai') }}"
-                        style="width: 100%; padding: 14px; border-radius: 15px; border: 1px solid #eee; background: #fcfcfc; color: #2B2118; font-weight: 600;">
+                        class="form-control bg-light border-0 py-3 fw-bold">
                 </div>
-                <div class="flex" style="gap: 10px;">
-                    <button type="submit"
-                        style="background: #2B2118; color: white; padding: 14px 30px; border-radius: 15px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 0.75rem;">
-                        <i class="fas fa-filter"></i> Filter
-                    </button>
-                    <a href="{{ route('admin.laporan.index') }}"
-                        style="background: #f3f4f6; color: #4b5563; padding: 14px 20px; border-radius: 15px; text-decoration: none; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; display: flex; align-items: center;">Reset</a>
+                <div class="col-md-4">
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-dark fw-black text-uppercase py-3 px-4 rounded-3 flex-fill shadow-sm" style="font-size: 0.75rem;">
+                            <i class="fas fa-filter me-2 text-accent-gold"></i> Filter
+                        </button>
+                        <a href="{{ route('admin.laporan.index') }}" class="btn btn-light fw-bold text-uppercase py-3 px-3 rounded-3 border" style="font-size: 0.75rem;">
+                            Reset
+                        </a>
+                    </div>
                 </div>
             </form>
         </div>
+    </div>
 
-        <div class="overflow-hidden rounded-[2.5rem] border border-gray-100 shadow-xl bg-white">
-            <table class="w-full text-left" style="border-collapse: separate; border-spacing: 0;">
-                <thead>
-                    <tr class="bg-[#2B2118] text-white">
-                        <th class="px-8 py-6 uppercase text-[10px] font-black tracking-[0.2em]">No. Nota</th>
-                        <th class="px-8 py-6 uppercase text-[10px] font-black tracking-[0.2em]">Pelanggan</th>
-                        <th class="px-8 py-6 uppercase text-[10px] font-black tracking-[0.2em]">Tanggal Sewa</th>
-                        <th class="px-8 py-6 uppercase text-[10px] font-black tracking-[0.2em] text-right">Total Bayar</th>
-                        <th class="px-8 py-6 uppercase text-[10px] font-black tracking-[0.2em] text-center no-print">Aksi
-                        </th>
+    <!-- Table Section -->
+    <div class="card border-0 shadow-sm rounded-5 overflow-hidden mb-5">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="laporanTable">
+                <thead class="bg-primary-dark text-white">
+                    <tr>
+                        <th class="p-4 text-uppercase small fw-bold" style="letter-spacing: 1px;">No. Nota</th>
+                        <th class="p-4 text-uppercase small fw-bold" style="letter-spacing: 1px;">Pelanggan</th>
+                        <th class="p-4 text-uppercase small fw-bold" style="letter-spacing: 1px;">Tanggal Sewa</th>
+                        <th class="p-4 text-uppercase small fw-bold text-end" style="letter-spacing: 1px;">Total Bayar</th>
+                        <th class="p-4 text-uppercase small fw-bold text-center no-print" style="letter-spacing: 1px;">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-50">
+                <tbody class="border-top-0">
                     @forelse ($laporan as $row)
-                        <tr class="hover:bg-orange-50/30 transition-all group">
-                            <td class="px-8 py-5">
-                                <span class="font-black text-[#B37428] uppercase tracking-tighter text-sm">
+                        <tr>
+                            <td class="p-4">
+                                <span class="fw-black text-accent-gold text-uppercase tracking-tighter">
                                     {{ $row->kode_sewa }}
                                 </span>
                             </td>
-                            <td class="px-8 py-5">
-                                <div class="font-black text-[#2B2118] uppercase text-sm">{{ $row->nama_pelanggan }}</div>
-                                <div
-                                    class="text-[9px] px-2 py-0.5 inline-block rounded-full font-bold uppercase tracking-widest mt-1 {{ $row->status == 'disewa' ? 'bg-orange-100 text-orange-600' : 'bg-green-100 text-green-600' }}">
-                                    {{ $row->status }}
+                            <td class="p-4">
+                                <div class="d-print-none">
+                                    <div class="fw-black text-dark text-uppercase small mb-1">{{ $row->nama_pelanggan }}</div>
+                                    <span class="badge {{ $row->status == 'disewa' ? 'bg-warning text-dark' : 'bg-success' }} text-uppercase fw-bold rounded-pill" style="font-size: 8px;">
+                                        {{ $row->status }}
+                                    </span>
+                                </div>
+                                <div class="d-none d-print-block">
+                                    <div class="fw-bold">{{ $row->nama_pelanggan }}</div>
+                                    <div class="small">({{ $row->status }})</div>
                                 </div>
                             </td>
-                            <td class="px-8 py-5 text-gray-500 font-bold text-sm">
-                                {{ \Carbon\Carbon::parse($row->tanggal_sewa)->format('d M Y') }}
+                            <td class="p-4 text-muted fw-bold">
+                                {{ \Carbon\Carbon::parse($row->tanggal_sewa)->isoFormat('D MMM YYYY') }}
                             </td>
-                            <td class="px-8 py-5 text-right">
-                                <span class="font-black text-[#2B2118] text-base">
-                                    Rp
-                                    {{ number_format($row->calculated_total ?? $row->details->sum('subtotal'), 0, ',', '.') }}
+                            <td class="p-4 text-end">
+                                <span class="fw-black text-dark">
+                                    Rp {{ number_format($row->calculated_total ?? $row->details->sum('subtotal'), 0, ',', '.') }}
                                 </span>
                             </td>
-                            <td class="px-8 py-5 text-center no-print">
+                            <td class="p-4 text-center no-print">
                                 <a href="{{ route('admin.penyewaan.show', $row->id_penyewaan) }}"
-                                    class="inline-flex items-center justify-center w-11 h-11 bg-gray-50 text-[#2B2118] rounded-2xl hover:bg-[#2B2118] hover:text-white transition-all shadow-sm border border-gray-100"
-                                    title="Lihat Histori Lengkap">
-                                    <i class="fas fa-eye text-xs"></i>
+                                    class="btn btn-light btn-sm rounded-3 border shadow-sm p-2"
+                                    title="Lihat Detail">
+                                    <i class="fas fa-eye text-primary"></i>
                                 </a>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-8 py-10 text-center text-gray-400 font-bold italic">
+                            <td colspan="5" class="p-5 text-center text-muted fw-bold italic">
                                 Tidak ada data transaksi untuk periode ini.
                             </td>
                         </tr>
                     @endforelse
                 </tbody>
-                <tfoot>
-                    <tr class="bg-gray-50/80">
-                        <td colspan="3"
-                            class="px-8 py-8 text-center font-black uppercase text-[11px] tracking-[0.3em] text-gray-400">
-                            Ringkasan Pendapatan</td>
-                        <td class="px-8 py-8 text-right font-black text-[#B37428] text-2xl">
+                <tfoot class="bg-light">
+                    <tr>
+                        <td colspan="3" class="p-4 text-center fw-black text-uppercase small tracking-widest text-muted">Ringkasan Pendapatan</td>
+                        <td class="p-4 text-end fw-black text-accent-gold h4 mb-0">
                             Rp {{ number_format($grandTotal, 0, ',', '.') }}
                         </td>
                         <td class="no-print"></td>
@@ -132,38 +136,46 @@
 
     <style>
         @media print {
-            .no-print {
+            .no-print, .sidebar, header, nav, .btn, form {
                 display: none !important;
             }
 
-            body {
+            body, .main-wrapper, .content-wrapper, .container-fluid {
                 background: white !important;
+                margin: 0 !important;
                 padding: 0 !important;
-            }
-
-            .container-fluid {
+                left: 0 !important;
                 width: 100% !important;
-                padding: 0 !important;
             }
 
-            .shadow-xl {
+            .main-wrapper {
+                margin-left: 0 !important;
+            }
+            
+            .card {
+                border: none !important;
                 box-shadow: none !important;
-                border: 1px solid #000 !important;
             }
 
-            .rounded-[2.5rem],
-            .rounded-[2rem] {
-                border-radius: 0 !important;
+            table {
+                width: 100% !important;
+                border: 1px solid #dee2e6 !important;
+            }
+
+            th, td {
+                border: 1px solid #dee2e6 !important;
+                padding: 10px !important;
+                color: black !important;
             }
 
             th {
-                background-color: #2B2118 !important;
+                background-color: #343a40 !important;
                 color: white !important;
-                -webkit-print-color-adjust: exact;
+                -webkit-print-color-adjust: exact !important;
             }
 
-            tr {
-                border-bottom: 1px solid #eee !important;
+            .text-accent-gold {
+                color: #B37428 !important;
             }
         }
     </style>
