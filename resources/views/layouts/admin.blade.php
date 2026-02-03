@@ -29,7 +29,6 @@
 
         .fw-black { font-weight: 900; }
 
-        /* Sidebar Styling */
         .sidebar {
             width: var(--sidebar-width);
             height: 100vh;
@@ -118,7 +117,6 @@
             transform: translateY(-2px);
         }
 
-        /* Main Content Styling */
         .main-wrapper {
             margin-left: var(--sidebar-width);
             padding: 2.5rem;
@@ -137,7 +135,6 @@
             background-color: var(--primary-dark) !important;
         }
 
-        /* Premium Card & Utilities */
         .rounded-5 { border-radius: 2rem !important; }
         .rounded-4 { border-radius: 1.5rem !important; }
 
