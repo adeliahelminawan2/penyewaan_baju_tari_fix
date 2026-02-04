@@ -9,13 +9,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+        
     <style>
         :root {
-            --primary-dark: #2B2118;
-            --accent-gold: #B37428;
+            --primary-dark: #452717;
+            --accent-gold: #e8a95c;
             --bg-soft: #f8f9fa;
             --sidebar-width: 280px;
         }
@@ -84,7 +82,7 @@
 
         .nav-link-custom:hover {
             color: white;
-            background: rgba(160, 98, 98, 0.03);
+            background: rgba(255, 255, 255, 0.05);
             border-left-color: var(--accent-gold);
         }
 
@@ -143,27 +141,8 @@
             box-shadow: 0 10px 30px rgba(255, 255, 255, 0.02);
         }
 
-        .animate-pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.1; }
-            50% { opacity: 0.2; }
-        }
-
-        @media (max-width: 991.98px) {
-            .sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-            }
-            .main-wrapper {
-                margin-left: 0;
-            }
-        }
     </style>
 
-    @stack('styles')
 </head>
 
 <body>
@@ -209,9 +188,6 @@
             <h1 class="h3 fw-black text-dark text-uppercase tracking-tight-custom">
                 Panel Kontrol <span class="text-accent-gold">Admin</span>
             </h1>
-            <div class="badge bg-white text-muted text-uppercase fw-bold rounded-pill shadow-sm px-4 py-2" style="font-size: 10px; letter-spacing: 1px;">
-                {{ \Carbon\Carbon::now()->isoFormat('D MMMM YYYY') }}
-            </div>
         </div>
 
         @yield('content')

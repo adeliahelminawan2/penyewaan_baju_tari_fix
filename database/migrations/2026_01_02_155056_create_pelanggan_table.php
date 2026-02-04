@@ -9,8 +9,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('pelanggan', function (Blueprint $table) {
-            $table->id('id_pelanggan'); // Primary Key
-            $table->string('nama_pelanggan'); // Pastikan ini 'nama_pelanggan', bukan 'nama'
+            $table->id('id_pelanggan'); 
+            $table->string('nama_pelanggan'); 
             $table->string('no_hp');
             $table->text('alamat');
             $table->timestamps();

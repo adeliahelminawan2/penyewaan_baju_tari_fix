@@ -34,23 +34,23 @@
             </div>
             <div class="col-6 text-end">
                 <p class="mb-1 small text-muted text-uppercase fw-bold">Tanggal Sewa</p>
-                <h5 class="fw-bold">{{ \Carbon\Carbon::parse($penyewaan->tgl_sewa ?? ($penyewaan->tanggal ?? $penyewaan->created_at))->format('d/m/Y') }}</h5>
+                <h5 class="fw-bold">{{ date('d/m/Y', strtotime($penyewaan->tgl_sewa ?? ($penyewaan->tanggal ?? $penyewaan->created_at))) }}</h5>
             </div>
         </div>
 
         <div class="row mb-4">
             <div class="col-6">
                 <p class="mb-1 small text-muted text-uppercase fw-bold">Pelanggan</p>
-                <h6 class="fw-bold text-uppercase">{{ $penyewaan->nama_pelanggan ?? ($penyewaan->pelanggan->nama_pelanggan ?? 'Umum') }}</h6>
+                <h6 class="fw-bold text-uppercase">{{ $penyewaan->nama_pelanggan ?? 'Umum' }}</h6>
             </div>
             <div class="col-6 text-end">
                 <p class="mb-1 small text-muted text-uppercase fw-bold">Wajib Kembali</p>
                 @php
-                    $tglAwal = \Carbon\Carbon::parse($penyewaan->tgl_sewa ?? ($penyewaan->tanggal ?? $penyewaan->created_at));
+                    $tglAwal = strtotime($penyewaan->tgl_sewa ?? ($penyewaan->tanggal ?? $penyewaan->created_at));
                     $durasi = $penyewaan->durasi ?? 3;
-                    $tglKembali = $tglAwal->addDays($durasi);
+                    $tglKembali = date('d/m/Y', strtotime("+$durasi days", $tglAwal));
                 @endphp
-                <h6 class="fw-bold text-danger">{{ $tglKembali->format('d/m/Y') }}</h6>
+                <h6 class="fw-bold text-danger">{{ $tglKembali }}</h6>
             </div>
         </div>
 

@@ -5,17 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Masuk Admin - Busana Laras</title>
     
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary-dark: #2B2118;
-            --accent-gold: #B37428;
+            --primary-dark: #452717;
+            --accent-gold: #865000;
             --bg-soft: #f4f1ee;
         }
 
@@ -32,7 +29,7 @@
         .login-card {
             background: var(--bg-soft);
             border-radius: 2.5rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 50px -12px rgba(255, 255, 255, 0.525);
             width: 100%;
             max-width: 450px;
             padding: 3.5rem 3rem;
@@ -55,7 +52,7 @@
 
         .btn-login {
             background-color: var(--primary-dark);
-            color: white;
+            color: rgb(237, 183, 64);
             border: none;
             padding: 1.2rem;
             border-radius: 1.2rem;

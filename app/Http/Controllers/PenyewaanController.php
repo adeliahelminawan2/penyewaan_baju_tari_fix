@@ -47,7 +47,6 @@ class PenyewaanController extends Controller
             $bajuIds = $request->id_baju;
             $jumlahs = $request->jumlah;
 
-            // Check stock availability for all items first
             foreach ($bajuIds as $index => $idBaju) {
                 $jumlah = $jumlahs[$index];
                 $baju = Baju::findOrFail($idBaju);
@@ -64,17 +63,14 @@ class PenyewaanController extends Controller
 
             $kodeSewa = 'INV-'.date('Ymd').'-'.strtoupper(Str::random(4));
 
-            $pelanggan = Pelanggan::firstOrCreate(
-                ['nama_pelanggan' => $request->nama_pelanggan],
-                ['no_hp' => '-', 'alamat' => '-']
-            );
-
             $penyewaan = Penyewaan::create([
                 'kode_sewa' => $kodeSewa,
-                'id_pelanggan' => $pelanggan->id_pelanggan,
+                'nama_pelanggan' => $request->nama_pelanggan,
+                'no_hp' => $request->no_hp ?? '-',
+                'alamat' => $request->alamat ?? '-',
                 'tanggal_sewa' => $request->tanggal_sewa,
                 'tanggal_kembali_rencana' => $request->tanggal_kembali_rencana,
-                'status' => 'DISEWA',
+                'status' => 'disewa',
             ]);
 
             foreach ($items as $item) {

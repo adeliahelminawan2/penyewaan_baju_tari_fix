@@ -98,7 +98,7 @@
                                 </div>
                             </td>
                             <td class="p-4 text-muted fw-bold">
-                                {{ \Carbon\Carbon::parse($row->tanggal_sewa)->isoFormat('D MMM YYYY') }}
+                                {{ date('d M Y', strtotime($row->tanggal_sewa)) }}
                             </td>
                             <td class="p-4 text-end">
                                 <span class="fw-black text-dark">

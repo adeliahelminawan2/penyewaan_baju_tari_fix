@@ -12,16 +12,13 @@ class Penyewaan extends Model
 
     protected $fillable = [
         'kode_sewa',
-        'id_pelanggan',
+        'nama_pelanggan',
+        'no_hp',
+        'alamat',
         'tanggal_sewa',
         'tanggal_kembali_rencana',
         'status',
     ];
-
-    public function pelanggan()
-    {
-        return $this->belongsTo(Pelanggan::class, 'id_pelanggan');
-    }
 
     public function details()
     {

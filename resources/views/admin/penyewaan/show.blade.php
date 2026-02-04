@@ -49,13 +49,13 @@
                         <div class="mb-3">
                             <p class="text-muted text-uppercase fw-black small tracking-widest mb-1">Tanggal Sewa</p>
                             <h4 class="h5 fw-black text-dark mb-0">
-                                {{ \Carbon\Carbon::parse($penyewaan->tanggal_sewa)->isoFormat('D MMMM YYYY') }}
+                                {{ date('d F Y', strtotime($penyewaan->tanggal_sewa)) }}
                             </h4>
                         </div>
                         <div>
                             <p class="text-danger text-uppercase fw-black small tracking-widest mb-1">Batas Pengembalian</p>
                             <h4 class="h5 fw-black text-danger mb-0">
-                                {{ \Carbon\Carbon::parse($penyewaan->tanggal_kembali_rencana)->isoFormat('D MMMM YYYY') }}
+                                {{ date('d F Y', strtotime($penyewaan->tanggal_kembali_rencana)) }}
                             </h4>
                         </div>
                     </div>

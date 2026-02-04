@@ -34,7 +34,7 @@ class PengembalianController extends Controller
             DB::table('pengembalian')->insert([
                 'id_penyewaan' => $request->id_penyewaan,
                 'tanggal_kembali' => $request->tanggal_kembali,
-                'denda' => $request->denda ?? 0,
+                'denda' => $request->denda ,
                 'keterangan' => $request->keterangan,
                 'created_at' => now(),
                 'updated_at' => now(),

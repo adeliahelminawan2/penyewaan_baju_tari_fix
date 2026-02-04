@@ -28,7 +28,7 @@
                                 <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Pelanggan</label>
                                 <div class="bg-light p-3 rounded-4 fw-black text-dark border">
                                     <i class="fas fa-user me-2 text-muted"></i>
-                                    {{ $penyewaan->pelanggan->nama_pelanggan ?? 'Nama Tidak Ditemukan' }}
+                                    {{ $penyewaan->nama_pelanggan }}
                                 </div>
                             </div>
 
@@ -66,7 +66,7 @@
                                     <input type="number" id="input_denda" name="denda" value="0"
                                         class="form-control bg-light border-0 py-3 fw-black text-dark" readonly>
                                 </div>
-                                <p class="text-muted fw-bold mt-2 ps-2" style="font-size: 9px;">* Denda: Rp 10.000 / hari keterlambatan</p>
+                                <p class="text-muted fw-bold mt-2 ps-2" style="font-size: 9px;">* Denda: Rp 5.000 / hari keterlambatan</p>
                             </div>
 
                             <div class="mb-0">
@@ -110,7 +110,6 @@
                 const d1 = new Date(tglRencana.value);
                 const d2 = new Date(tglKembali.value);
 
-                // Set hours to 0 to compare dates only
                 d1.setHours(0,0,0,0);
                 d2.setHours(0,0,0,0);
 
@@ -118,7 +117,7 @@
                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
                 if (diffDays > 0) {
-                    const dendaPerHari = 10000; 
+                    const dendaPerHari = 5000; 
                     inputDenda.value = diffDays * dendaPerHari;
 
                     infoTerlambat.classList.remove('d-none');
