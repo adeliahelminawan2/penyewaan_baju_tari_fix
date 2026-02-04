@@ -4,7 +4,7 @@
     <div class="mx-auto" style="max-width: 900px;">
         <div class="card border-0 shadow-sm rounded-5 overflow-hidden mb-5">
             <div class="bg-primary-dark p-5 text-center border-bottom border-4 border-accent-gold position-relative">
-                <i class="fas fa-undo-alt position-absolute top-50 start-50 translate-middle opacity-10 text-white" style="font-size: 10rem;"></i>
+                <i class="fas position-absolute top-50 start-50 translate-middle opacity-10 text-white" style="font-size: 10rem;"></i>
                 <h1 class="h3 fw-black text-white text-uppercase tracking-tight-custom mb-2 position-relative z-1">
                     Proses <span class="text-accent-gold">Pengembalian</span>
                 </h1>
