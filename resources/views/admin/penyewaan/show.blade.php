@@ -21,7 +21,6 @@
         </div>
 
         <div class="card border-0 shadow-sm rounded-5 overflow-hidden position-relative">
-            <!-- Header Section -->
             <div class="bg-primary-dark p-5 text-center position-relative overflow-hidden mb-0">
                 <div class="position-absolute top-50 start-50 translate-middle opacity-10 text-white" style="font-size: 15rem;">
                     <i class="fas fa-file-invoice"></i>
@@ -33,7 +32,6 @@
             </div>
 
             <div class="card-body p-4 p-md-5">
-                <!-- Info Section -->
                 <div class="row g-4 mb-5 pb-5 border-bottom">
                     <div class="col-md-6">
                         <p class="text-muted text-uppercase fw-black small tracking-widest mb-2">Data Penyewa</p>
@@ -61,7 +59,6 @@
                     </div>
                 </div>
 
-                <!-- Items Section -->
                 <div class="mb-5">
                     <h3 class="h6 text-accent-gold fw-black text-uppercase tracking-widest mb-4">
                         <i class="fas fa-tshirt me-2"></i> Daftar Koleksi Busana
@@ -90,7 +87,6 @@
                     </div>
                 </div>
 
-                <!-- Total Section -->
                 <div class="card border-0 bg-primary-dark rounded-4 shadow-lg overflow-hidden position-relative group">
                     <div class="position-absolute top-0 start-0 w-100 h-100 bg-accent-gold opacity-10 animate-pulse"></div>
                     <div class="card-body p-4 d-flex justify-content-between align-items-center position-relative z-1">

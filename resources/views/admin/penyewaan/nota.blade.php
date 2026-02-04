@@ -51,7 +51,6 @@
             </div>
         </div>
 
-        <!-- Table Items -->
         <div class="table-responsive mb-4">
             <table class="table table-bordered border-dark mb-0">
                 <thead class="bg-light">
@@ -87,7 +86,6 @@
             </table>
         </div>
 
-        <!-- Footer Note -->
         <div class="text-center mt-5">
             <p class="text-muted small fst-italic mb-0">
                 * Harap mengembalikan busana tepat waktu.<br>
@@ -95,7 +93,6 @@
             </p>
         </div>
 
-        <!-- Tombol Aksi (Hidden saat Print) -->
         <div class="d-print-none text-center mt-5">
             <button onclick="window.print()" class="btn btn-dark fw-bold px-4 rounded-pill shadow-sm me-2">
                 <i class="fas fa-print me-2"></i> Cetak Nota
@@ -106,7 +103,6 @@
         </div>
     </div>
 
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </body>
 </html>

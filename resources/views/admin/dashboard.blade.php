@@ -1,7 +1,6 @@
 @extends('layouts.admin')
 
 @section('content')
-    <!-- Welcome Section -->
     <div class="mt-5 bg-primary-dark p-5 rounded-5 text-center shadow-lg position-relative"
         style="border-bottom: 8px solid var(--accent-gold);">
         <div class="mx-auto" style="max-width: 700px;">
@@ -17,7 +16,6 @@
             </div>
         </div>
 
-        <!-- Total Koleksi -->
 
         <i class="fas fa-user-shield position-absolute"
             style="right: -20px; bottom: -20px; font-size: 8rem; color: white; opacity: 0.1;"></i>
@@ -35,7 +33,6 @@
             </div>
         </div>
 
-        <!-- Pelanggan -->
         <div class="col-12 col-md-4">
             <div class="card border-0 shadow-sm rounded-5 h-100 position-relative overflow-hidden group"
                 style="border-left: 8px solid var(--primary-dark) !important;">
@@ -48,7 +45,6 @@
             </div>
         </div>
 
-        <!-- Sewa Aktif -->
         <div class="col-12 col-md-4">
             <div class="card border-0 shadow-sm rounded-5 h-100 position-relative overflow-hidden group"
                 style="border-left: 8px solid #ca8a04 !important;">

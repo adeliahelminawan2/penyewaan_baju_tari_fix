@@ -86,7 +86,6 @@
 
 <body>
 
-    <!-- Header / Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 border-bottom border-warning border-4">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-3" href="#">
@@ -104,7 +103,6 @@
         </div>
     </nav>
 
-    <!-- Hero / Content -->
     <div class="container py-5">
         <div class="text-center mb-5 mt-4">
             <span class="text-warning fw-bold text-uppercase ls-2 small d-block mb-2">Eksplorasi Budaya</span>
@@ -146,7 +144,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="bg-light text-center py-5 border-top border-warning border-4 mt-5">
         <div class="container">
             <img src="{{ asset('img/LOGO.jpg') }}" class="mb-3 rounded opacity-50" style="width: 50px; height: 50px;">

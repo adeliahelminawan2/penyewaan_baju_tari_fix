@@ -36,7 +36,6 @@
         </div>
     </div>
 
-    <!-- Filter Section -->
     <div class="card border-0 shadow-sm rounded-5 mb-4 no-print border">
         <div class="card-body p-4">
             <form action="{{ route('admin.laporan.index') }}" method="GET" class="row g-3 align-items-end">
@@ -64,7 +63,6 @@
         </div>
     </div>
 
-    <!-- Table Section -->
     <div class="card border-0 shadow-sm rounded-5 overflow-hidden mb-5">
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0" id="laporanTable">
