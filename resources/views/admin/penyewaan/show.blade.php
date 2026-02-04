@@ -34,7 +34,9 @@
                 <div class="row g-4 mb-5 pb-5 border-bottom">
                     <div class="col-md-6">
                         <p class="text-muted text-uppercase fw-black small tracking-widest mb-2">Data Penyewa</p>
-                        <h3 class="h4 fw-black text-dark mb-2 text-uppercase">{{ $penyewaan->nama_pelanggan }}</h3>
+                        <h3 class="h4 fw-black text-dark mb-1 text-uppercase">{{ $penyewaan->nama_pelanggan }}</h3>
+                        <p class="text-muted small fw-bold mb-1"><i class="fas fa-phone me-2 text-accent-gold"></i>{{ $penyewaan->no_hp }}</p>
+                        <p class="text-muted small fw-bold mb-3"><i class="fas fa-map-marker-alt me-2 text-accent-gold"></i>{{ $penyewaan->alamat }}</p>
                         <div class="d-flex align-items-center gap-2">
                             <span class="badge {{ $penyewaan->status == 'disewa' ? 'bg-warning text-dark' : 'bg-success' }} text-uppercase fw-bold rounded-pill px-3 py-2" style="font-size: 10px; letter-spacing: 1px;">
                                 <i class="fas {{ $penyewaan->status == 'disewa' ? 'fa-clock' : 'fa-check-circle' }} me-1"></i>

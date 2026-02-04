@@ -31,6 +31,8 @@ class PenyewaanController extends Controller
     {
         $request->validate([
             'nama_pelanggan' => 'required|string|max:255',
+            'no_hp' => 'required|string|max:20',
+            'alamat' => 'required|string',
             'id_baju' => 'required|array',
             'id_baju.*' => 'exists:baju,id_baju',
             'jumlah' => 'required|array',

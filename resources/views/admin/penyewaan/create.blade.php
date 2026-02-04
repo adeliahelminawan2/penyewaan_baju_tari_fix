@@ -59,6 +59,27 @@
 
                     <div class="row g-4 mb-4">
                         <div class="col-md-6">
+                            <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">No. HP / WhatsApp</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-0 ps-3"><i class="fas fa-phone text-accent-gold"></i></span>
+                                <input type="text" name="no_hp" value="{{ old('no_hp') }}"
+                                    class="form-control bg-light border-0 py-3 fw-bold"
+                                    placeholder="Contoh: 08123456789" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Alamat Lengkap</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-0 ps-3"><i class="fas fa-map-marker-alt text-accent-gold"></i></span>
+                                <input type="text" name="alamat" value="{{ old('alamat') }}"
+                                    class="form-control bg-light border-0 py-3 fw-bold"
+                                    placeholder="Alamat domisili saat ini..." required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
                             <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Tanggal Sewa</label>
                             <input type="date" name="tanggal_sewa" value="{{ old('tanggal_sewa', date('Y-m-d')) }}"
                                 class="form-control bg-light border-0 py-3 fw-bold">

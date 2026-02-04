@@ -43,9 +43,13 @@
                         <tr class="group">
                             <td class="p-4">
                                 <div class="fw-black text-dark h5 mb-1">{{ $item->kode_sewa }}</div>
-                                <div class="d-flex align-items-center gap-2">
+                                <div class="d-flex align-items-center gap-2 mb-1">
                                     <i class="fas fa-user text-accent-gold" style="font-size: 10px;"></i>
                                     <span class="text-uppercase text-muted fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">{{ $item->nama_pelanggan }}</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="fas fa-phone text-accent-gold" style="font-size: 10px;"></i>
+                                    <span class="text-muted fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">{{ $item->no_hp }}</span>
                                 </div>
                             </td>
                             <td class="p-4">
