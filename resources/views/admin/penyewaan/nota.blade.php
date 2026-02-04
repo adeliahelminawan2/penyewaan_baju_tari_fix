@@ -19,13 +19,11 @@
 
     <div class="card nota-box shadow-sm border-0 rounded-0 p-4 p-md-5">
         
-        <!-- Header -->
         <div class="text-center border-bottom border-2 border-dark pb-4 mb-4">
             <h2 class="fw-bold text-uppercase mb-1 text-dark">Busana Laras</h2>
             <p class="text-muted small text-uppercase mb-0">Penyewaan Baju Tari & Adat</p>
         </div>
 
-        <!-- Info Transaksi -->
         <div class="row mb-4">
             <div class="col-6">
                 <p class="mb-1 small text-muted text-uppercase fw-bold">No. Nota</p>
