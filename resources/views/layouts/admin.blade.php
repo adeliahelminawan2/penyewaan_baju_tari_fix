@@ -13,9 +13,13 @@
     <style>
         :root {
             --primary-dark: #452717;
-            --accent-gold: #e8a95c;
+            --accent-gold: rgb(237, 111, 0); 
             --bg-soft: #f8f9fa;
             --sidebar-width: 280px;
+        }
+
+        .text-glow {
+            text-shadow: 0 0 15px rgb(255, 255, 255);
         }
 
         body {
@@ -31,8 +35,6 @@
             width: var(--sidebar-width);
             height: 100vh;
             position: fixed;
-            top: 0;
-            left: 0;
             background-color: var(--primary-dark);
             color: white;
             z-index: 1000;
@@ -42,42 +44,36 @@
         }
 
         .logo-section {
-            padding: 2.5rem 2rem;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 3.5rem;
             text-align: center;
         }
 
         .logo-img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            border-radius: 10%;
             margin-bottom: 1rem;
             border: 3px solid var(--accent-gold);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
+            box-shadow: 0 5px 15px rgba(201, 157, 68, 0.368);
         }
 
         .nav-link-custom {
             padding: 1rem 2rem;
-            color: rgba(255,255,255,0.6);
+            color: rgb(237, 111, 0);
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 18px;
             font-weight: 700;
             font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
             transition: all 0.3s ease;
             border-left: 4px solid transparent;
         }
 
         .nav-link-custom i {
-            font-size: 1.1rem;
-            width: 20px;
+            font-size: 1.5rem;
+            width: 25px;
         }
 
         .nav-link-custom:hover {
@@ -184,9 +180,9 @@
     </aside>
 
     <main class="main-wrapper">
-        <div class="mb-4 d-flex justify-content-between align-items-center">
-            <h1 class="h3 fw-black text-dark text-uppercase tracking-tight-custom">
-                Panel Kontrol <span class="text-accent-gold">Admin</span>
+        <div class="mb-4 d-flex justify-content-between align-items-center border-bottom pb-3">
+            <h1 class="h3 fw-black text-dark text-uppercase tracking-tight-custom mb-0">
+                Panel Kontrol <span class="text-accent-gold text-glow">Admin</span>
             </h1>
         </div>
 

@@ -97,8 +97,8 @@
                         Adat</small>
                 </div>
             </a>
-            <a href="{{ route('login') }}" class="btn btn-orange fw-bold rounded-pill px-4 shadow-sm">
-                <i class="fas fa-lock-open me-2"></i> Admin System
+            <a href="{{ route('login') }}" class="btn btn-orange fw-bold  px-4 shadow-sm">
+                <i class="fas fa-lock me-2"></i> Admin System
             </a>
         </div>
     </nav>
