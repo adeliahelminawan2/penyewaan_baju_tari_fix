@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Baju;
 use App\Models\DetailPenyewaan;
-use App\Models\Pelanggan;
 use App\Models\Penyewaan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

@@ -23,7 +23,6 @@
             placeholder="Cari nama busana...">
     </div>
 
-    {{-- Alerts --}}
     @if (session('success'))
         <div id="success-alert" class="alert alert-success border-0 border-start border-4 border-success shadow-sm rounded-3 d-flex justify-content-between align-items-center mb-4">
             <div class="d-flex align-items-center gap-3">

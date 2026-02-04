@@ -23,7 +23,6 @@
         <div class="card border-0 shadow-sm rounded-5 overflow-hidden position-relative">
             <div class="bg-primary-dark p-5 text-center position-relative overflow-hidden mb-0">
                 <div class="position-absolute top-50 start-50 translate-middle opacity-10 text-white" style="font-size: 15rem;">
-                    <i class="fas fa-file-invoice"></i>
                 </div>
                 <div class="position-relative z-1">
                     <p class="text-accent-gold text-uppercase fw-black small tracking-widest mb-2">Kode Sewa</p>

@@ -17,7 +17,7 @@
 
         <div class="card border-0 shadow-sm rounded-5 overflow-hidden position-relative">
             <div class="position-absolute top-0 end-0 p-5 opacity-5 pointer-events-none">
-                <i class="fas fa-crown d-none d-md-block" style="font-size: 8rem; color: var(--primary-dark);"></i>
+                <i class="fas d-none d-md-block" style="font-size: 8rem; color: var(--primary-dark);"></i>
             </div>
 
             <div class="card-body p-4 p-md-5 position-relative z-1">
