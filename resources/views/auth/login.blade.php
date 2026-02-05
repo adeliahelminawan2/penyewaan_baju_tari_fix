@@ -11,7 +11,7 @@
     
     <style>
         :root {
-            --primary-dark: #452717;
+            --primary-dark: #6a442e;
             --accent-gold: #865000;
             --bg-soft: #f4f1ee;
         }

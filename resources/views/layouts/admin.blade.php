@@ -12,8 +12,8 @@
         
     <style>
         :root {
-            --primary-dark: #452717;
-            --accent-gold: rgb(237, 111, 0); 
+            --primary-dark: #6a442e;
+            --accent-gold: rgb(246, 168, 52); 
             --bg-soft: #f8f9fa;
             --sidebar-width: 280px;
         }
@@ -59,7 +59,7 @@
 
         .nav-link-custom {
             padding: 1rem 2rem;
-            color: rgb(237, 111, 0);
+            color: rgb(255, 255, 255);
             text-decoration: none;
             display: flex;
             align-items: center;

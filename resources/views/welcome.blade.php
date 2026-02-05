@@ -12,7 +12,7 @@
         rel="stylesheet">
     <style>
         body {
-            background-color: #452717;
+            background-color: #6a442e;
             font-family: 'Plus Jakarta Sans', sans-serif;
             color: rgb(255, 255, 255);
         }
