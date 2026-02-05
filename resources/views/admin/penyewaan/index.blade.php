@@ -34,7 +34,7 @@
                         <th class="p-4 text-uppercase small fw-bold" style="letter-spacing: 1px;">Kode & Pelanggan</th>
                         <th class="p-4 text-uppercase small fw-bold" style="letter-spacing: 1px;">Koleksi Busana</th>
                         <th class="p-4 text-uppercase small fw-bold text-center" style="letter-spacing: 1px;">Status</th>
-                        <th class="p-4 text-uppercase small fw-bold" style="letter-spacing: 1px;">Catatan / Denda</th>
+                        <th class="p-4 text-uppercase small fw-bold" style="letter-spacing: 1px;">Pembayaran</th>
                         <th class="p-4 text-uppercase small fw-bold text-center" style="letter-spacing: 1px;">Aksi</th>
                     </tr>
                 </thead>
@@ -46,6 +46,10 @@
                                 <div class="d-flex align-items-center gap-2 mb-1">
                                     <i class="fas fa-user text-accent-gold" style="font-size: 10px;"></i>
                                     <span class="text-uppercase text-muted fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">{{ $item->nama_pelanggan }}</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <i class="fas fa-id-card text-accent-gold" style="font-size: 10px;"></i>
+                                    <span class="text-muted fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">Jaminan: {{ $item->jaminan ?? '-' }}</span>
                                 </div>
                                 <div class="d-flex align-items-center gap-2">
                                     <i class="fas fa-phone text-accent-gold" style="font-size: 10px;"></i>
@@ -75,32 +79,35 @@
                                 @endif
                             </td>
                             <td class="p-4">
-                                @if ($item->status == 'dikembalikan' || ($item->status == 'KEMBALI' && $item->pengembalian))
-                                    <div class="small text-muted fst-italic mb-1">
-                                        "{{ $item->pengembalian->keterangan ?? 'Kondisi Baik' }}"
-                                    </div>
-                                    @if ($item->pengembalian->denda > 0)
-                                        <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-10 px-2 py-1 text-uppercase fw-bold" style="font-size: 9px;">
-                                            Denda: Rp {{ number_format($item->pengembalian->denda, 0, ',', '.') }}
-                                        </span>
-                                    @endif
+                                <div class="small fw-bold text-dark mb-1">Total: Rp {{ number_format($item->total_harga, 0, ',', '.') }}</div>
+                                <div class="small fw-bold text-success mb-1">Bayar: Rp {{ number_format($item->total_bayar, 0, ',', '.') }}</div>
+                                @php $sisa = $item->total_harga - $item->total_bayar; @endphp
+                                @if($sisa > 0)
+                                    <div class="small fw-bold text-danger mb-1">Sisa: Rp {{ number_format($sisa, 0, ',', '.') }}</div>
+                                    <span class="badge bg-danger bg-opacity-10 text-danger px-2 py-1 text-uppercase fw-bold" style="font-size: 9px;">Belum Lunas</span>
                                 @else
-                                    <span class="text-muted opacity-25 fw-bold">-</span>
+                                    <span class="badge bg-success bg-opacity-10 text-success px-2 py-1 text-uppercase fw-bold" style="font-size: 9px;">Lunas</span>
                                 @endif
                             </td>
                             <td class="p-4 text-center">
-                                @if ($item->status == 'disewa')
-                                    <a href="{{ route('admin.pengembalian.create', $item->id_penyewaan) }}"
-                                        class="btn btn-warning btn-sm fw-black text-uppercase px-3 py-2 rounded-3 shadow-sm" style="background-color: var(--accent-gold); color: white; font-size: 9px; letter-spacing: 1px;">
-                                        Proses Kembali
+                                <div class="d-flex gap-2 justify-content-center">
+                                    <a href="{{ route('admin.penyewaan.show', $item->id_penyewaan) }}" 
+                                        class="btn btn-primary btn-sm rounded-3 shadow-sm p-2"
+                                        title="Detail">
+                                        <i class="fas fa-eye"></i>
                                     </a>
-                                @else
+                                    @if ($item->status == 'disewa')
+                                        <a href="{{ route('admin.pengembalian.create', $item->id_penyewaan) }}"
+                                            class="btn btn-warning btn-sm fw-black text-uppercase px-3 py-2 rounded-3 shadow-sm" style="background-color: var(--accent-gold); color: white; font-size: 9px; letter-spacing: 1px;">
+                                            Kembali
+                                        </a>
+                                    @endif
                                     <a href="{{ route('admin.penyewaan.nota', $item->id_penyewaan) }}" target="_blank"
                                         class="btn btn-dark btn-sm rounded-3 shadow-sm p-2"
                                         title="Cetak Nota">
                                         <i class="fas fa-print"></i>
                                     </a>
-                                @endif
+                                </div>
                             </td>
                         </tr>
                     @endforeach

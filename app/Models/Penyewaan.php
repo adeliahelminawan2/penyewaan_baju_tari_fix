@@ -15,8 +15,11 @@ class Penyewaan extends Model
         'nama_pelanggan',
         'no_hp',
         'alamat',
+        'jaminan',
         'tanggal_sewa',
         'tanggal_kembali_rencana',
+        'total_harga',
+        'total_bayar',
         'status',
     ];
 

@@ -79,4 +79,16 @@ class BajuController extends Controller
 
         return redirect()->route('admin.baju.index')->with('success', 'Baju berhasil dihapus!');
     }
+
+    public function updateStok(Request $request, $id)
+    {
+        $request->validate([
+            'jumlah_tambah' => 'required|integer|min:1'
+        ]);
+
+        $baju = Baju::findOrFail($id);
+        $baju->increment('stok', $request->jumlah_tambah);
+
+        return redirect()->route('admin.baju.index')->with('success', "Stok {$baju->nama_baju} berhasil ditambah {$request->jumlah_tambah} pcs!");
+    }
 }

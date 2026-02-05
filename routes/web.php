@@ -30,6 +30,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     })->name('dashboard');
 
     Route::resource('baju', BajuController::class);
+    Route::patch('/baju/{id}/update-stok', [BajuController::class, 'updateStok'])->name('baju.updateStok');
 
     Route::get('/penyewaan', [PenyewaanController::class, 'index'])->name('penyewaan.index');
     Route::get('/penyewaan/create', [PenyewaanController::class, 'create'])->name('penyewaan.create');

@@ -27,27 +27,24 @@
         <div class="row mb-4">
             <div class="col-6">
                 <p class="mb-1 small text-muted text-uppercase fw-bold">No. Nota</p>
-                <h5 class="fw-bold">#{{ $penyewaan->id_penyewaan }}</h5>
+                <h5 class="fw-bold">{{ $penyewaan->kode_sewa }}</h5>
             </div>
             <div class="col-6 text-end">
                 <p class="mb-1 small text-muted text-uppercase fw-bold">Tanggal Sewa</p>
-                <h5 class="fw-bold">{{ date('d/m/Y', strtotime($penyewaan->tgl_sewa ?? ($penyewaan->tanggal ?? $penyewaan->created_at))) }}</h5>
+                <h5 class="fw-bold">{{ date('d/m/Y', strtotime($penyewaan->tanggal_sewa)) }}</h5>
             </div>
         </div>
 
         <div class="row mb-4">
             <div class="col-6">
                 <p class="mb-1 small text-muted text-uppercase fw-bold">Pelanggan</p>
-                <h6 class="fw-bold text-uppercase">{{ $penyewaan->nama_pelanggan ?? 'Umum' }}</h6>
+                <h6 class="fw-bold text-uppercase">{{ $penyewaan->nama_pelanggan }}</h6>
+                <p class="mb-0 small text-muted">{{ $penyewaan->no_hp }}</p>
+                <p class="mb-0 small text-muted">Jaminan: <strong>{{ $penyewaan->jaminan ?? '-' }}</strong></p>
             </div>
             <div class="col-6 text-end">
                 <p class="mb-1 small text-muted text-uppercase fw-bold">Wajib Kembali</p>
-                @php
-                    $tglAwal = strtotime($penyewaan->tgl_sewa ?? ($penyewaan->tanggal ?? $penyewaan->created_at));
-                    $durasi = $penyewaan->durasi ?? 3;
-                    $tglKembali = date('d/m/Y', strtotime("+$durasi days", $tglAwal));
-                @endphp
-                <h6 class="fw-bold text-danger">{{ $tglKembali }}</h6>
+                <h6 class="fw-bold text-danger">{{ date('d/m/Y', strtotime($penyewaan->tanggal_kembali_rencana)) }}</h6>
             </div>
         </div>
 
@@ -66,7 +63,7 @@
                         <tr>
                             <td>{{ $detail->baju->nama_baju }}</td>
                             <td class="text-end">
-                                Rp {{ number_format($detail->harga ?? ($detail->harga_sewa ?? ($detail->jumlah > 0 ? $detail->subtotal / $detail->jumlah : 0)), 0, ',', '.') }}
+                                Rp {{ number_format($detail->harga_sewa, 0, ',', '.') }}
                             </td>
                             <td class="text-center">{{ $detail->jumlah }}</td>
                             <td class="text-end fw-bold">
@@ -77,11 +74,30 @@
                 </tbody>
                 <tfoot class="border-top border-2 border-dark">
                     <tr>
-                        <td colspan="3" class="text-end fw-bold text-uppercase small pt-3">Total Bayar</td>
-                        <td class="text-end fw-bold fs-5 pt-3">
-                            Rp {{ number_format($penyewaan->total_harga ?? $penyewaan->details->sum('subtotal'), 0, ',', '.') }}
+                        <td colspan="3" class="text-end fw-bold text-uppercase small pt-3">Total Biaya</td>
+                        <td class="text-end fw-bold pt-3">
+                            Rp {{ number_format($penyewaan->total_harga, 0, ',', '.') }}
                         </td>
                     </tr>
+                    <tr>
+                        <td colspan="3" class="text-end fw-bold text-uppercase small text-success">Dibayar</td>
+                        <td class="text-end fw-bold text-success">
+                            Rp {{ number_format($penyewaan->total_bayar, 0, ',', '.') }}
+                        </td>
+                    </tr>
+                    @php $sisa = $penyewaan->total_harga - $penyewaan->total_bayar; @endphp
+                    @if($sisa > 0)
+                    <tr>
+                        <td colspan="3" class="text-end fw-bold text-uppercase small text-danger">Sisa Tagihan</td>
+                        <td class="text-end fw-bold text-danger border border-2 border-danger">
+                            Rp {{ number_format($sisa, 0, ',', '.') }}
+                        </td>
+                    </tr>
+                    @else
+                    <tr>
+                        <td colspan="4" class="text-center fw-black text-uppercase p-2 bg-success text-white">LUNAS</td>
+                    </tr>
+                    @endif
                 </tfoot>
             </table>
         </div>

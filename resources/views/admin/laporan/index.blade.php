@@ -100,7 +100,7 @@
                             </td>
                             <td class="p-4 text-end">
                                 <span class="fw-black text-dark">
-                                    Rp {{ number_format($row->calculated_total ?? $row->details->sum('subtotal'), 0, ',', '.') }}
+                                    Rp {{ number_format($row->total_harga, 0, ',', '.') }}
                                 </span>
                             </td>
                             <td class="p-4 text-center no-print">

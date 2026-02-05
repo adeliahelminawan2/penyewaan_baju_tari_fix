@@ -19,12 +19,7 @@ class LaporanController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $grandTotal = 0;
-        foreach ($laporan as $row) {
-            $totalPerNota = $row->details->sum('subtotal');
-            $row->calculated_total = $totalPerNota;
-            $grandTotal += $totalPerNota;
-        }
+        $grandTotal = $laporan->sum('total_harga');
 
         return view('admin.laporan.index', compact('laporan', 'grandTotal'));
     }

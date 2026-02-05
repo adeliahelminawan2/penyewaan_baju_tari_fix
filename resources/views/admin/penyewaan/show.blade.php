@@ -36,9 +36,9 @@
                         <p class="text-muted text-uppercase fw-black small tracking-widest mb-2">Data Penyewa</p>
                         <h3 class="h4 fw-black text-dark mb-1 text-uppercase">{{ $penyewaan->nama_pelanggan }}</h3>
                         <p class="text-muted small fw-bold mb-1"><i class="fas fa-phone me-2 text-accent-gold"></i>{{ $penyewaan->no_hp }}</p>
-                        <p class="text-muted small fw-bold mb-3"><i class="fas fa-map-marker-alt me-2 text-accent-gold"></i>{{ $penyewaan->alamat }}</p>
-                        <div class="d-flex align-items-center gap-2">
-                            <span class="badge {{ $penyewaan->status == 'disewa' ? 'bg-warning text-dark' : 'bg-success' }} text-uppercase fw-bold rounded-pill px-3 py-2" style="font-size: 10px; letter-spacing: 1px;">
+                        <p class="text-muted small fw-bold mb-1"><i class="fas fa-id-card me-2 text-accent-gold"></i>Jaminan: {{ $penyewaan->jaminan ?? '-' }}</p>
+                        <div class="d-flex align-items-center gap-2 mt-3">
+                            <span class="badge {{ $penyewaan->status == 'disewa' ? 'bg-warning text-dark' : 'bg-success text-white' }} text-uppercase fw-bold rounded-pill px-3 py-2" style="font-size: 10px; letter-spacing: 1px;">
                                 <i class="fas {{ $penyewaan->status == 'disewa' ? 'fa-clock' : 'fa-check-circle' }} me-1"></i>
                                 {{ $penyewaan->status == 'disewa' ? 'Dalam Sewa' : 'Sudah Kembali' }}
                             </span>
@@ -88,13 +88,35 @@
                     </div>
                 </div>
 
-                <div class="card border-0 bg-primary-dark rounded-4 shadow-lg overflow-hidden position-relative group">
-                    <div class="position-absolute top-0 start-0 w-100 h-100 bg-accent-gold opacity-10 animate-pulse"></div>
-                    <div class="card-body p-4 d-flex justify-content-between align-items-center position-relative z-1">
-                        <span class="h6 fw-black text-white text-uppercase tracking-widest mb-0 opacity-75">Total Pembayaran</span>
-                        <h3 class="h2 fw-black text-accent-gold mb-0">
-                            Rp {{ number_format($penyewaan->details->sum('subtotal'), 0, ',', '.') }}
-                        </h3>
+                <div class="bg-light rounded-4 p-4 border overflow-hidden">
+                    <div class="row align-items-center mb-4 pb-4 border-bottom g-3">
+                        <div class="col-8">
+                            <h4 class="h6 fw-black text-uppercase tracking-widest mb-0 opacity-75">Total Biaya Sewa</h4>
+                        </div>
+                        <div class="col-4 text-end">
+                            <h4 class="h5 fw-black text-dark mb-0">Rp {{ number_format($penyewaan->total_harga, 0, ',', '.') }}</h4>
+                        </div>
+                    </div>
+                    
+                    <div class="row align-items-center mb-4 pb-4 border-bottom g-3">
+                        <div class="col-8">
+                            <h4 class="h6 fw-black text-uppercase tracking-widest mb-0 text-success">Jumlah Telah Dibayar</h4>
+                        </div>
+                        <div class="col-4 text-end">
+                            <h4 class="h5 fw-black text-success mb-0">Rp {{ number_format($penyewaan->total_bayar, 0, ',', '.') }}</h4>
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center g-3">
+                        <div class="col-8">
+                            <span class="h6 fw-black text-dark text-uppercase tracking-widest mb-0">Sisa Tagihan</span>
+                        </div>
+                        <div class="col-4 text-end">
+                            <h3 class="h3 fw-black text-danger mb-0">
+                                @php $sisa = $penyewaan->total_harga - $penyewaan->total_bayar; @endphp
+                                Rp {{ number_format($sisa > 0 ? $sisa : 0, 0, ',', '.') }}
+                            </h3>
+                        </div>
                     </div>
                 </div>
             </div>

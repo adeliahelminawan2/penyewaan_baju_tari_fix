@@ -33,12 +33,14 @@ class PenyewaanController extends Controller
             'nama_pelanggan' => 'required|string|max:255',
             'no_hp' => 'required|string|max:20',
             'alamat' => 'required|string',
+            'jaminan' => 'required|string|max:255',
             'id_baju' => 'required|array',
             'id_baju.*' => 'exists:baju,id_baju',
             'jumlah' => 'required|array',
             'jumlah.*' => 'integer|min:1',
             'tanggal_sewa' => 'required|date',
             'tanggal_kembali_rencana' => 'required|date',
+            'total_bayar' => 'required|numeric|min:0',
         ]);
 
         try {
@@ -47,6 +49,7 @@ class PenyewaanController extends Controller
             $items = [];
             $bajuIds = $request->id_baju;
             $jumlahs = $request->jumlah;
+            $totalHarga = 0;
 
             foreach ($bajuIds as $index => $idBaju) {
                 $jumlah = $jumlahs[$index];
@@ -56,9 +59,13 @@ class PenyewaanController extends Controller
                     return back()->with('error', "Stok untuk {$baju->nama_baju} tidak mencukupi! (Sisa: {$baju->stok})")->withInput();
                 }
 
+                $subtotal = $baju->harga_sewa * $jumlah;
+                $totalHarga += $subtotal;
+
                 $items[] = [
                     'baju' => $baju,
-                    'jumlah' => $jumlah
+                    'jumlah' => $jumlah,
+                    'subtotal' => $subtotal
                 ];
             }
 
@@ -69,15 +76,18 @@ class PenyewaanController extends Controller
                 'nama_pelanggan' => $request->nama_pelanggan,
                 'no_hp' => $request->no_hp ?? '-',
                 'alamat' => $request->alamat ?? '-',
+                'jaminan' => $request->jaminan,
                 'tanggal_sewa' => $request->tanggal_sewa,
                 'tanggal_kembali_rencana' => $request->tanggal_kembali_rencana,
+                'total_harga' => $totalHarga,
+                'total_bayar' => $request->total_bayar,
                 'status' => 'disewa',
             ]);
 
             foreach ($items as $item) {
                 $baju = $item['baju'];
                 $jumlah = $item['jumlah'];
-                $subtotal = $baju->harga_sewa * $jumlah;
+                $subtotal = $item['subtotal'];
 
                 DetailPenyewaan::create([
                     'id_penyewaan' => $penyewaan->id_penyewaan,

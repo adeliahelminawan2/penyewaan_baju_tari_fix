@@ -182,7 +182,7 @@
     <main class="main-wrapper">
         <div class="mb-4 d-flex justify-content-between align-items-center border-bottom pb-3">
             <h1 class="h3 fw-black text-dark text-uppercase tracking-tight-custom mb-0">
-                Panel Kontrol <span class="text-accent-gold text-glow">Admin</span>
+                Toko Busana <span class="text-accent-gold text-glow"> Laras</span>
             </h1>
         </div>
 

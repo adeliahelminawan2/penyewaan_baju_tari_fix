@@ -82,6 +82,12 @@
                             </td>
                             <td class="p-3 text-center">
                                 <div class="d-flex justify-content-center gap-2">
+                                    <button type="button" 
+                                        class="btn btn-success btn-sm border-0 rounded-3 shadow-sm p-2"
+                                        title="Tambah Stok"
+                                        onclick="openStockModal('{{ $b->id_baju }}', '{{ $b->nama_baju }}', '{{ $b->stok }}')">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
                                     <a href="{{ route('admin.baju.edit', $b->id_baju) }}"
                                         class="btn btn-warning btn-sm border-0 text-white rounded-3 shadow-sm p-2"
                                         title="Edit">
@@ -129,13 +135,54 @@
         @endif
     </div>
 
+    <div class="modal fade" id="stockModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-5 overflow-hidden">
+                <div class="modal-header bg-success text-white border-0 p-4">
+                    <h5 class="modal-title fw-black text-uppercase tracking-widest">
+                        <i class="fas fa-plus-circle me-2"></i> Tambah Stok
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="stockForm" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    <div class="modal-body p-4">
+                        <div class="mb-4">
+                            <label class="text-muted small fw-bold text-uppercase tracking-wider mb-2">Nama Busana</label>
+                            <div class="h5 fw-black text-dark mb-0" id="modalBajuName">-</div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <label class="text-muted small fw-bold text-uppercase tracking-wider mb-2">Stok Saat Ini</label>
+                                <div class="h5 fw-bold text-muted" id="modalCurrentStock">0</div>
+                            </div>
+                            <div class="col-6">
+                                <label class="text-dark small fw-bold text-uppercase tracking-wider mb-2">Jumlah Tambah</label>
+                                <div class="input-group">
+                                    <input type="number" name="jumlah_tambah" class="form-control bg-light border-0 py-2 fw-bold" min="1" value="1" required>
+                                    <span class="input-group-text bg-light border-0 fw-bold">Pcs</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light border-0 p-4">
+                        <button type="button" class="btn btn-light fw-bold text-uppercase" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-success fw-black text-uppercase px-4 shadow-sm">Simpan Stok</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.getElementById('searchInput').addEventListener('keyup', function() {
             let filter = this.value.toLowerCase();
             let rows = document.querySelectorAll('.baju-row');
             let hasData = false;
-
+ 
             rows.forEach(row => {
                 let namaBaju = row.querySelector('.nama-baju').textContent.toLowerCase();
                 if (namaBaju.includes(filter)) {
@@ -145,7 +192,7 @@
                     row.classList.add('d-none');
                 }
             });
-
+ 
             let noResults = document.getElementById('noResults');
             if (noResults) {
                 if (hasData) {
@@ -155,7 +202,7 @@
                 }
             }
         });
-
+ 
         document.addEventListener('DOMContentLoaded', function() {
             var notif = document.getElementById('success-alert');
             if (notif) {
@@ -165,6 +212,18 @@
             }
         });
 
+        function openStockModal(id, name, currentStock) {
+            const form = document.getElementById('stockForm');
+            const url = "{{ route('admin.baju.updateStok', ':id') }}".replace(':id', id);
+            form.action = url;
+            
+            document.getElementById('modalBajuName').innerText = name;
+            document.getElementById('modalCurrentStock').innerText = currentStock + " Pcs";
+            
+            const modal = new bootstrap.Modal(document.getElementById('stockModal'));
+            modal.show();
+        }
+ 
         function confirmDelete(id, name) {
             Swal.fire({
                 title: 'Hapus Koleksi?',
