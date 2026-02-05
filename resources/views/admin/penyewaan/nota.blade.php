@@ -73,23 +73,57 @@
                     @endforeach
                 </tbody>
                 <tfoot class="border-top border-2 border-dark">
+                    @php 
+                        $tagihanLama = $penyewaan->total_harga;
+                        if($penyewaan->pengembalian) {
+                            $tagihanLama -= $penyewaan->pengembalian->denda;
+                        }
+                    @endphp
                     <tr>
-                        <td colspan="3" class="text-end fw-bold text-uppercase small pt-3">Total Biaya</td>
+                        <td colspan="3" class="text-end fw-bold text-uppercase small pt-3">Biaya Sewa</td>
                         <td class="text-end fw-bold pt-3">
+                            Rp {{ number_format($tagihanLama, 0, ',', '.') }}
+                        </td>
+                    </tr>
+                    @if($penyewaan->pengembalian && $penyewaan->pengembalian->denda > 0)
+                    <tr>
+                        <td colspan="3" class="text-end fw-bold text-uppercase small text-warning">Denda Keterlambatan</td>
+                        <td class="text-end fw-bold text-warning">
+                            + Rp {{ number_format($penyewaan->pengembalian->denda, 0, ',', '.') }}
+                        </td>
+                    </tr>
+                    @endif
+                    <tr class="bg-light">
+                        <td colspan="3" class="text-end fw-black text-uppercase small">Total Biaya</td>
+                        <td class="text-end fw-black border-bottom border-dark">
                             Rp {{ number_format($penyewaan->total_harga, 0, ',', '.') }}
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="3" class="text-end fw-bold text-uppercase small text-success">Dibayar</td>
-                        <td class="text-end fw-bold text-success">
-                            Rp {{ number_format($penyewaan->total_bayar, 0, ',', '.') }}
+                        <td colspan="3" class="text-end fw-bold text-uppercase small pt-2 text-success">Dibayar (Awal/DP)</td>
+                        <td class="text-end fw-bold pt-2 text-success">
+                            @php 
+                                $bayarAwal = $penyewaan->total_bayar;
+                                if($penyewaan->pengembalian) {
+                                    $bayarAwal -= $penyewaan->pengembalian->pelunasan;
+                                }
+                            @endphp
+                            - Rp {{ number_format($bayarAwal, 0, ',', '.') }}
                         </td>
                     </tr>
+                    @if($penyewaan->pengembalian && $penyewaan->pengembalian->pelunasan > 0)
+                    <tr>
+                        <td colspan="3" class="text-end fw-bold text-uppercase small text-primary">Pelunasan Saat Kembali</td>
+                        <td class="text-end fw-bold text-primary">
+                            - Rp {{ number_format($penyewaan->pengembalian->pelunasan, 0, ',', '.') }}
+                        </td>
+                    </tr>
+                    @endif
                     @php $sisa = $penyewaan->total_harga - $penyewaan->total_bayar; @endphp
                     @if($sisa > 0)
                     <tr>
-                        <td colspan="3" class="text-end fw-bold text-uppercase small text-danger">Sisa Tagihan</td>
-                        <td class="text-end fw-bold text-danger border border-2 border-danger">
+                        <td colspan="3" class="text-end fw-black text-uppercase small text-danger">Sisa Tagihan</td>
+                        <td class="text-end fw-black text-danger border border-2 border-danger">
                             Rp {{ number_format($sisa, 0, ',', '.') }}
                         </td>
                     </tr>

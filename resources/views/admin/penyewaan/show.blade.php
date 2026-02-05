@@ -100,10 +100,47 @@
                     
                     <div class="row align-items-center mb-4 pb-4 border-bottom g-3">
                         <div class="col-8">
-                            <h4 class="h6 fw-black text-uppercase tracking-widest mb-0 text-success">Jumlah Telah Dibayar</h4>
+                            <h4 class="h6 fw-black text-uppercase tracking-widest mb-0 opacity-75">Telah Dibayar (Awal/DP)</h4>
                         </div>
                         <div class="col-4 text-end">
-                            <h4 class="h5 fw-black text-success mb-0">Rp {{ number_format($penyewaan->total_bayar, 0, ',', '.') }}</h4>
+                            @php 
+                                $bayarAwal = $penyewaan->total_bayar;
+                                if($penyewaan->pengembalian) {
+                                    $bayarAwal -= $penyewaan->pengembalian->pelunasan;
+                                }
+                            @endphp
+                            <h4 class="h5 fw-black text-success mb-0">Rp {{ number_format($bayarAwal, 0, ',', '.') }}</h4>
+                        </div>
+                    </div>
+
+                    @if($penyewaan->pengembalian && $penyewaan->pengembalian->pelunasan > 0)
+                    <div class="row align-items-center mb-4 pb-4 border-bottom g-3">
+                        <div class="col-8">
+                            <h4 class="h6 fw-black text-uppercase tracking-widest mb-0 text-primary">Pelunasan Saat Kembali</h4>
+                        </div>
+                        <div class="col-4 text-end">
+                            <h4 class="h5 fw-black text-primary mb-0">Rp {{ number_format($penyewaan->pengembalian->pelunasan, 0, ',', '.') }}</h4>
+                        </div>
+                    </div>
+                    @endif
+
+                    @if($penyewaan->pengembalian && $penyewaan->pengembalian->denda > 0)
+                    <div class="row align-items-center mb-4 pb-4 border-bottom g-3">
+                        <div class="col-8">
+                            <h4 class="h6 fw-black text-uppercase tracking-widest mb-0 text-warning">Denda Keterlambatan</h4>
+                        </div>
+                        <div class="col-4 text-end">
+                            <h4 class="h5 fw-black text-warning mb-0">+ Rp {{ number_format($penyewaan->pengembalian->denda, 0, ',', '.') }}</h4>
+                        </div>
+                    </div>
+                    @endif
+
+                    <div class="row align-items-center mb-4 pb-4 border-bottom g-3">
+                        <div class="col-8">
+                            <h4 class="h6 fw-black text-uppercase tracking-widest mb-0 opacity-75">Total Keseluruhan</h4>
+                        </div>
+                        <div class="col-4 text-end">
+                            <h4 class="h5 fw-black text-dark mb-0">Rp {{ number_format($penyewaan->total_harga, 0, ',', '.') }}</h4>
                         </div>
                     </div>
 

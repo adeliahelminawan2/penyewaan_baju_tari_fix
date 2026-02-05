@@ -21,8 +21,10 @@ class PengembalianController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'id_penyewaan' => 'required|exists:penyewaan,id_penyewaan',
             'tanggal_kembali' => 'required|date',
-            'denda' => 'nullable|numeric',
+            'denda' => 'nullable|numeric|min:0',
+            'pelunasan' => 'nullable|numeric|min:0',
             'keterangan' => 'nullable|string',
         ]);
 
@@ -30,15 +32,28 @@ class PengembalianController extends Controller
             DB::beginTransaction();
 
             $penyewaan = Penyewaan::findOrFail($request->id_penyewaan);
+            $denda = $request->denda ?? 0;
+            $pelunasan = $request->pelunasan ?? 0;
 
             DB::table('pengembalian')->insert([
                 'id_penyewaan' => $request->id_penyewaan,
                 'tanggal_kembali' => $request->tanggal_kembali,
-                'denda' => $request->denda ,
+                'denda' => $denda,
+                'pelunasan' => $pelunasan,
                 'keterangan' => $request->keterangan,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
+
+            // Jika ada denda, tambahkan ke total_harga penyewaan
+            if ($denda > 0) {
+                $penyewaan->increment('total_harga', $denda);
+            }
+
+            // Tambahkan pelunasan ke total_bayar penyewaan
+            if ($pelunasan > 0) {
+                $penyewaan->increment('total_bayar', $pelunasan);
+            }
 
             $penyewaan->update(['status' => 'dikembalikan']);
 

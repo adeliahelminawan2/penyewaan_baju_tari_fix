@@ -59,14 +59,33 @@
                                 Validasi Kondisi
                             </h3>
 
-                            <div class="mb-4">
-                                <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Total Denda (Otomatis)</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-0 ps-3 fw-black text-accent-gold">Rp</span>
-                                    <input type="number" id="input_denda" name="denda" value="0"
-                                        class="form-control bg-light border-0 py-3 fw-black text-dark" readonly>
+                            <div class="bg-dark text-white rounded-4 p-4 mb-4">
+                                <h3 class="h6 text-accent-gold fw-black text-uppercase tracking-widest mb-3 pb-2 border-bottom border-secondary">
+                                    Ringkasan Pembayaran
+                                </h3>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="small opacity-75">Sisa Sewa Baju</span>
+                                    @php $sisaSewa = $penyewaan->total_harga - $penyewaan->total_bayar; @endphp
+                                    <span class="fw-bold">Rp {{ number_format($sisaSewa, 0, ',', '.') }}</span>
+                                    <input type="hidden" id="sisa_sewa_val" value="{{ $sisaSewa }}">
                                 </div>
-                                <p class="text-muted fw-bold mt-2 ps-2" style="font-size: 9px;">* Denda: Rp 5.000 / hari keterlambatan</p>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="small opacity-75">Denda Keterlambatan</span>
+                                    <span class="fw-bold text-warning" id="display_denda">Rp 0</span>
+                                </div>
+                                <hr class="my-3 opacity-25">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <span class="fw-black text-uppercase small">Total Tagihan</span>
+                                    <span class="h4 fw-black text-accent-gold mb-0" id="display_total_tagihan">Rp {{ number_format($sisaSewa, 0, ',', '.') }}</span>
+                                </div>
+
+                                <label class="form-label text-white-50 fw-bold text-uppercase small tracking-widest mb-2">Jumlah Bayar Pelunasan</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text bg-white bg-opacity-10 border-0 text-white">Rp</span>
+                                    <input type="number" name="pelunasan" id="input_pelunasan" value="{{ old('pelunasan', $sisaSewa) }}"
+                                        class="form-control bg-white bg-opacity-10 border-0 py-3 fw-black text-white"
+                                        placeholder="0">
+                                </div>
                             </div>
 
                             <div class="mb-0">
@@ -102,34 +121,58 @@
         document.addEventListener('DOMContentLoaded', function() {
             const tglRencana = document.getElementById('tgl_rencana');
             const tglKembali = document.getElementById('tgl_kembali_real');
-            const inputDenda = document.getElementById('input_denda');
+            const displayDenda = document.getElementById('display_denda');
+            const displayTotalTagihan = document.getElementById('display_total_tagihan');
+            const inputPelunasan = document.getElementById('input_pelunasan');
+            const sisaSewaVal = parseInt(document.getElementById('sisa_sewa_val').value) || 0;
             const infoTerlambat = document.getElementById('info_terlambat');
             const jumlahHariText = document.getElementById('jumlah_hari');
+
+            // Kita buat input hidden untuk denda karena tampilan dipindah ke display
+            const hiddenDenda = document.createElement('input');
+            hiddenDenda.type = 'hidden';
+            hiddenDenda.name = 'denda';
+            document.querySelector('form').appendChild(hiddenDenda);
+ 
+            const formatRupiah = (number) => {
+                return new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                    minimumFractionDigits: 0
+                }).format(number);
+            };
 
             function hitungDenda() {
                 const d1 = new Date(tglRencana.value);
                 const d2 = new Date(tglKembali.value);
-
+ 
                 d1.setHours(0,0,0,0);
                 d2.setHours(0,0,0,0);
-
+ 
                 const diffTime = d2 - d1;
                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
+                
+                let denda = 0;
                 if (diffDays > 0) {
                     const dendaPerHari = 5000; 
-                    inputDenda.value = diffDays * dendaPerHari;
-
+                    denda = diffDays * dendaPerHari;
+ 
                     infoTerlambat.classList.remove('d-none');
                     jumlahHariText.innerText = diffDays;
                 } else {
-                    inputDenda.value = 0;
                     infoTerlambat.classList.add('d-none');
                 }
+
+                hiddenDenda.value = denda;
+                displayDenda.innerText = formatRupiah(denda);
+                
+                const totalTagihan = sisaSewaVal + denda;
+                displayTotalTagihan.innerText = formatRupiah(totalTagihan);
+                inputPelunasan.value = totalTagihan;
             }
-
+ 
             hitungDenda();
-
+ 
             tglKembali.addEventListener('change', hitungDenda);
         });
     </script>
