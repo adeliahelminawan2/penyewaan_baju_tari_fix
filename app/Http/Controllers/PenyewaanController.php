@@ -34,6 +34,7 @@ class PenyewaanController extends Controller
             'no_hp' => 'required|string|max:20',
             'alamat' => 'required|string',
             'jaminan' => 'required|string|max:255',
+            'foto_identitas' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
             'id_baju' => 'required|array',
             'id_baju.*' => 'exists:baju,id_baju',
             'jumlah' => 'required|array',
@@ -71,12 +72,21 @@ class PenyewaanController extends Controller
 
             $kodeSewa = 'INV-'.date('Ymd').'-'.strtoupper(Str::random(4));
 
+            // Handle foto identitas upload
+            $fotoPath = null;
+            if ($request->hasFile('foto_identitas')) {
+                $file = $request->file('foto_identitas');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $fotoPath = $file->storeAs('identitas', $filename, 'public');
+            }
+
             $penyewaan = Penyewaan::create([
                 'kode_sewa' => $kodeSewa,
                 'nama_pelanggan' => $request->nama_pelanggan,
                 'no_hp' => $request->no_hp ?? '-',
                 'alamat' => $request->alamat ?? '-',
                 'jaminan' => $request->jaminan,
+                'foto_identitas' => $fotoPath,
                 'tanggal_sewa' => $request->tanggal_sewa,
                 'tanggal_kembali_rencana' => $request->tanggal_kembali_rencana,
                 'total_harga' => $totalHarga,

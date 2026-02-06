@@ -16,6 +16,7 @@ class Penyewaan extends Model
         'no_hp',
         'alamat',
         'jaminan',
+        'foto_identitas',
         'tanggal_sewa',
         'tanggal_kembali_rencana',
         'total_harga',

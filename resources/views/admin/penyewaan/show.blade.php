@@ -37,6 +37,17 @@
                         <h3 class="h4 fw-black text-dark mb-1 text-uppercase">{{ $penyewaan->nama_pelanggan }}</h3>
                         <p class="text-muted small fw-bold mb-1"><i class="fas fa-phone me-2 text-accent-gold"></i>{{ $penyewaan->no_hp }}</p>
                         <p class="text-muted small fw-bold mb-1"><i class="fas fa-id-card me-2 text-accent-gold"></i>Jaminan: {{ $penyewaan->jaminan ?? '-' }}</p>
+                        @if($penyewaan->foto_identitas)
+                            <div class="mt-3">
+                                <p class="text-muted text-uppercase fw-black small tracking-widest mb-2">Foto Identitas Penjamin</p>
+                                <a href="{{ asset('storage/' . $penyewaan->foto_identitas) }}" target="_blank">
+                                    <img src="{{ asset('storage/' . $penyewaan->foto_identitas) }}" 
+                                         alt="Foto Identitas" 
+                                         class="img-thumbnail rounded-3 shadow-sm" 
+                                         style="max-width: 250px; max-height: 200px; object-fit: cover;">
+                                </a>
+                            </div>
+                        @endif
                         <div class="d-flex align-items-center gap-2 mt-3">
                             <span class="badge {{ $penyewaan->status == 'disewa' ? 'bg-warning text-dark' : 'bg-success text-white' }} text-uppercase fw-bold rounded-pill px-3 py-2" style="font-size: 10px; letter-spacing: 1px;">
                                 <i class="fas {{ $penyewaan->status == 'disewa' ? 'fa-clock' : 'fa-check-circle' }} me-1"></i>

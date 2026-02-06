@@ -44,7 +44,7 @@
             </div>
 
             <div class="card-body p-4 p-md-5 position-relative z-1">
-                <form action="{{ route('admin.penyewaan.store') }}" method="POST">
+                <form action="{{ route('admin.penyewaan.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="mb-4">
@@ -86,6 +86,16 @@
                                 class="form-control bg-light border-0 py-3 fw-bold"
                                 placeholder="Alamat domisili saat ini..." required>
                         </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label text-dark fw-bold text-uppercase small tracking-widest mb-2">Foto Identitas Penjamin (KTP/SIM) - Opsional</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0 ps-3"><i class="fas fa-camera text-accent-gold"></i></span>
+                            <input type="file" name="foto_identitas" accept="image/*"
+                                class="form-control bg-light border-0 py-3 fw-bold">
+                        </div>
+                        <small class="text-muted">Format: JPG, JPEG, PNG. Maksimal 2MB.</small>
                     </div>
 
                     <div class="row g-4 mb-4">
